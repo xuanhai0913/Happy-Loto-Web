@@ -203,6 +203,14 @@ export default function Home() {
                     </div>
                 </div>
 
+                {/* Leaderboard Link */}
+                <button
+                    onClick={() => navigate("/leaderboard")}
+                    className="w-full bg-tet-card hover:bg-tet-gold/10 border border-tet-gold/20 text-tet-gold font-bold py-3 px-6 rounded-xl transition-all cursor-pointer flex items-center justify-center gap-2"
+                >
+                    🏆 Bảng Xếp Hạng
+                </button>
+
                 {/* Error */}
                 {error && (
                     <div className="bg-red-100 border border-red-300 rounded-xl p-3 text-center text-red-600 text-sm animate-shake">

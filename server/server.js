@@ -4,6 +4,7 @@ const { Server } = require("socket.io");
 const cors = require("cors");
 const path = require("path");
 const crypto = require("crypto");
+const db = require("./db");
 
 const app = express();
 const server = http.createServer(app);
@@ -280,8 +281,16 @@ io.on("connection", (socket) => {
         room.isPaused = false;
         room.winner = null;
         room.verifying = null;
+
+        // Record participation for all online players
+        for (const [pid, pData] of room.players) {
+            if (pData.online) {
+                db.recordPlayerGame(pid, pData.name);
+            }
+        }
+
         io.to(roomCode).emit("game_started");
-        console.log(`🎮 Game started in room ${roomCode}`);
+        console.log(`🎮 Game started in room ${roomCode} with ${room.players.size} players`);
     });
 
     // --- CALL NUMBER ---
@@ -418,6 +427,17 @@ io.on("connection", (socket) => {
                 room.isPlaying = false;
                 room.verifying = null;
 
+                // Record to database
+                db.recordGame({
+                    roomCode,
+                    playerCount: room.players.size,
+                    numbersCalled: room.calledNumbers.length,
+                    winnerName: player.name,
+                    winnerPersistentId: pid,
+                    winningNumbers: rowNumbers,
+                });
+                db.recordPlayerWin(pid, player.name);
+
                 io.to(roomCode).emit("verification_result", {
                     valid: true,
                     playerId: pid,
@@ -446,6 +466,9 @@ io.on("connection", (socket) => {
                 });
 
                 io.to(roomCode).emit("game_resumed");
+
+                // Record false alarm to database
+                db.recordFalseAlarm(pid, player.name);
 
                 console.log(`❌ FALSE ALARM by ${pid} - Invalid: [${invalidNumbers.join(", ")}]`);
             }
@@ -531,6 +554,37 @@ io.on("connection", (socket) => {
             }
         }
     });
+});
+
+// ==================== REST API ====================
+
+app.get("/api/leaderboard", (req, res) => {
+    try {
+        const limit = Math.min(parseInt(req.query.limit) || 20, 50);
+        const leaderboard = db.getLeaderboard(limit);
+        res.json(leaderboard);
+    } catch (err) {
+        res.status(500).json({ error: "Internal server error" });
+    }
+});
+
+app.get("/api/stats", (req, res) => {
+    try {
+        const stats = db.getStats();
+        res.json(stats);
+    } catch (err) {
+        res.status(500).json({ error: "Internal server error" });
+    }
+});
+
+app.get("/api/history", (req, res) => {
+    try {
+        const limit = Math.min(parseInt(req.query.limit) || 20, 50);
+        const games = db.getRecentGames(limit);
+        res.json(games);
+    } catch (err) {
+        res.status(500).json({ error: "Internal server error" });
+    }
 });
 
 // --- CATCH-ALL: serve React app ---
