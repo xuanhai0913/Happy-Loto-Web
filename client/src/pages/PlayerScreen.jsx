@@ -29,6 +29,9 @@ export default function PlayerScreen() {
     const [winnerAlert, setWinnerAlert] = useState(null);
     const [verification, setVerification] = useState(null);
     const [isSubmittingKinh, setIsSubmittingKinh] = useState(false);
+    const [playerName] = useState(
+        () => localStorage.getItem("loto_player_name") || "Người chơi"
+    );
 
     // Redirect if no ticket
     useEffect(() => {
@@ -285,6 +288,7 @@ export default function PlayerScreen() {
                         selectedNumbers={selectedNumbers}
                         calledNumbers={calledNumbers}
                         onToggle={handleToggleNumber}
+                        playerName={playerName}
                     />
                 </div>
 

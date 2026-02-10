@@ -123,7 +123,7 @@ export default function Home() {
             <div className="relative z-10 w-full max-w-md space-y-8">
                 {/* Logo & Title */}
                 <div className="text-center space-y-3">
-                    <div className="text-7xl mb-4">🎰</div>
+                    <img src="/images/loto-logo.png" alt="Happy Loto" className="w-28 h-28 mx-auto mb-4 drop-shadow-lg" />
                     <h1 className="text-4xl font-black bg-gradient-to-r from-tet-gold via-tet-gold-light to-tet-gold bg-clip-text text-transparent">
                         HAPPY LOTO
                     </h1>
