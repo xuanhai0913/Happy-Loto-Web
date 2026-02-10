@@ -24,7 +24,7 @@ export default function HostScreen() {
     const [showNumberAnim, setShowNumberAnim] = useState(false);
     const [isCallingNumber, setIsCallingNumber] = useState(false);
     const [verification, setVerification] = useState(null);
-    const [showPlayers, setShowPlayers] = useState(false);
+    const [showPlayers, setShowPlayers] = useState(true);
 
     useEffect(() => {
         socket.on("player_joined", ({ playerCount: pc, onlineCount: oc, players: pl }) => {
@@ -156,34 +156,56 @@ export default function HostScreen() {
             </header>
 
             <div className="flex-1 max-w-4xl mx-auto w-full p-4 space-y-4 pb-20">
-                {/* Player List Dropdown */}
-                {showPlayers && (
-                    <div className="card space-y-2">
+                {/* Player List Panel - Always visible */}
+                <div className="card">
+                    <button
+                        onClick={() => setShowPlayers(!showPlayers)}
+                        className="w-full flex items-center justify-between cursor-pointer"
+                    >
                         <h3 className="text-sm font-bold text-tet-gold flex items-center gap-2">
-                            <span>👥</span> Danh sách người chơi ({onlineCount} online / {playerCount} tổng)
+                            <span>👥</span> Người chơi
+                            <span className="bg-tet-gold/20 text-tet-gold text-xs px-2 py-0.5 rounded-full font-black">
+                                {onlineCount}/{playerCount}
+                            </span>
                         </h3>
-                        {players.length === 0 ? (
-                            <p className="text-tet-cream/40 text-sm">Chưa có ai vào phòng</p>
-                        ) : (
-                            <div className="space-y-1">
-                                {players.map((p) => (
+                        <span className="text-tet-cream/40 text-sm">
+                            {showPlayers ? "▲" : "▼"}
+                        </span>
+                    </button>
+
+                    {showPlayers && (
+                        <div className="mt-3 space-y-1.5">
+                            {players.length === 0 ? (
+                                <p className="text-tet-cream/40 text-sm text-center py-2">Chưa có ai vào phòng</p>
+                            ) : (
+                                players.map((p, idx) => (
                                     <div
                                         key={p.id}
-                                        className="flex items-center gap-2 text-sm py-1.5 px-2 rounded-lg bg-tet-cream/5"
+                                        className={`flex items-center gap-3 text-sm py-2 px-3 rounded-xl transition-all ${p.online
+                                            ? "bg-green-500/10 border border-green-500/20"
+                                            : "bg-gray-500/10 border border-gray-500/10"
+                                            }`}
                                     >
-                                        <span className={`w-2 h-2 rounded-full ${p.online ? "bg-green-400" : "bg-gray-500"}`} />
-                                        <span className={p.online ? "text-white/80" : "text-tet-cream/40"}>
+                                        <span className="text-tet-cream/40 text-xs font-bold w-5 text-center">
+                                            {idx + 1}
+                                        </span>
+                                        <span className={`w-2.5 h-2.5 rounded-full flex-shrink-0 ${p.online ? "bg-green-400 shadow-sm shadow-green-400/50" : "bg-gray-500"
+                                            }`} />
+                                        <span className={`font-bold truncate ${p.online ? "text-white" : "text-tet-cream/30 line-through"
+                                            }`}>
                                             {p.name}
                                         </span>
-                                        {!p.online && (
-                                            <span className="text-[10px] text-tet-cream/25 ml-auto">mất kết nối</span>
+                                        {p.online ? (
+                                            <span className="ml-auto text-[10px] text-green-400">online</span>
+                                        ) : (
+                                            <span className="ml-auto text-[10px] text-red-400">mất kết nối</span>
                                         )}
                                     </div>
-                                ))}
-                            </div>
-                        )}
-                    </div>
-                )}
+                                ))
+                            )}
+                        </div>
+                    )}
+                </div>
 
                 {/* Current Number Display */}
                 <div className="card text-center py-8 relative overflow-hidden">

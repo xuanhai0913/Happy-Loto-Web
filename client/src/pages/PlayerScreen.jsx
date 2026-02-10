@@ -297,7 +297,7 @@ export default function PlayerScreen() {
                             onClick={() => socket.emit("reroll_ticket", { roomCode })}
                             className="mt-3 w-full bg-tet-card-light hover:bg-tet-gold/10 border border-tet-gold/30 text-tet-gold font-bold py-2.5 px-4 rounded-xl transition-all cursor-pointer flex items-center justify-center gap-2"
                         >
-                            🔄 Đổi vé khác
+                            Đổi vé khác
                         </button>
                     )}
                 </div>
