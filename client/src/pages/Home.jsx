@@ -22,15 +22,16 @@ export default function Home() {
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
 
-    // Auto-join from QR code url param
+    // Pre-fill room code from QR code url param (don't auto-join — let user enter name)
     useEffect(() => {
         const roomParam = searchParams.get("room");
         if (roomParam && roomParam.length === 4) {
             setRoomCode(roomParam);
-            handleJoinRoom(roomParam);
+            // Don't auto-join: let user enter their name first
+            return;
         }
 
-        // Check for saved session to auto-reconnect
+        // Check for saved session to auto-reconnect (name already saved)
         const savedRoom = sessionStorage.getItem("loto_room");
         const savedIsHost = sessionStorage.getItem("loto_is_host");
         if (savedRoom && !roomParam) {
