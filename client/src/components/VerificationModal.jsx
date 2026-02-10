@@ -11,11 +11,12 @@ const TICKET_COLORS = [
 ];
 
 function getTicketColor(playerName, ticket) {
-    let hash = (playerName || "").split("").reduce((acc, c) => acc + c.charCodeAt(0), 0);
     if (ticket && ticket.length > 0) {
-        const firstNum = ticket.flat().find((n) => n !== null) || 0;
-        hash += firstNum * 7;
+        const allNums = ticket.flat().filter((n) => n !== null);
+        const hash = allNums.reduce((acc, n, i) => acc + n * (i + 1), 0);
+        return TICKET_COLORS[hash % TICKET_COLORS.length];
     }
+    let hash = (playerName || "").split("").reduce((acc, c) => acc + c.charCodeAt(0), 0);
     return TICKET_COLORS[hash % TICKET_COLORS.length];
 }
 

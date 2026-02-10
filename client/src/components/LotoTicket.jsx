@@ -14,13 +14,12 @@ const TICKET_COLORS = [
 const LotoTicket = memo(function LotoTicket({ ticket, selectedNumbers, calledNumbers, onToggle, playerName }) {
     if (!ticket) return null;
 
-    // Pick color based on playerName + ticket data (so reroll changes color)
+    // Pick color based on ALL ticket numbers (so reroll always changes color)
     const ticketColor = useMemo(() => {
-        let hash = (playerName || "").split("").reduce((acc, c) => acc + c.charCodeAt(0), 0);
-        const firstNum = ticket.flat().find((n) => n !== null) || 0;
-        hash += firstNum * 7;
+        const allNums = ticket.flat().filter((n) => n !== null);
+        const hash = allNums.reduce((acc, n, i) => acc + n * (i + 1), 0);
         return TICKET_COLORS[hash % TICKET_COLORS.length];
-    }, [playerName, ticket]);
+    }, [ticket]);
 
     return (
         <div className="single-color-ticket" style={{ borderColor: ticketColor }}>
