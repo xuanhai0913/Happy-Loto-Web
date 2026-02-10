@@ -209,9 +209,23 @@ export default function Home() {
                     </div>
                 )}
 
-                <p className="text-center text-tet-cream/30 text-xs pt-4">
-                    Made with ❤️ for Tết 2026 • Happy Loto v1.0
-                </p>
+                <div className="text-center text-xs pt-4 space-y-1">
+                    <p className="text-tet-cream/40">
+                        Made with ❤️ for Tết 2026 • Happy Loto v1.0
+                    </p>
+                    <p className="text-tet-cream/30">
+                        © 2026{" "}
+                        <a
+                            href="https://www.hailamdev.space/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-tet-gold hover:text-tet-gold-light underline underline-offset-2 transition-colors"
+                        >
+                            Hailamdev
+                        </a>
+                        {" "}• All rights reserved
+                    </p>
+                </div>
             </div>
         </div>
     );

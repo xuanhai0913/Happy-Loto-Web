@@ -130,7 +130,7 @@ export default function HostScreen() {
             <header className="bg-tet-card border-b border-tet-gold/20 px-4 py-3">
                 <div className="max-w-4xl mx-auto flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                        <span className="text-2xl">🎰</span>
+                        <img src="/images/loto-logo.png" alt="Happy Loto" className="w-10 h-10 rounded-lg" />
                         <div>
                             <h1 className="text-lg font-bold text-tet-gold">HAPPY LOTO</h1>
                             <p className="text-xs text-tet-cream/50">Chủ phòng</p>
@@ -305,8 +305,8 @@ export default function HostScreen() {
 
                 {/* Winner Banner */}
                 {winner && (
-                    <div className="card bg-gradient-to-r from-tet-gold/20 to-tet-red/20 text-center py-8 space-y-3 border-tet-gold/40">
-                        <div className="text-5xl">🏆</div>
+                    <div className="card bg-gradient-to-r from-tet-gold/20 to-tet-red/20 text-center py-6 space-y-3 border-tet-gold/40">
+                        <img src="/images/meme/mewnhanlixi.png" alt="Chiến thắng" className="w-28 h-28 mx-auto rounded-2xl shadow-lg object-cover" />
                         <h2 className="text-2xl font-black text-tet-gold">KINH RỒI!</h2>
                         <p className="text-tet-cream/80">
                             🎉 {winner.playerName || "Người chơi"} đã thắng!
@@ -328,6 +328,19 @@ export default function HostScreen() {
 
             {/* Quick Chat */}
             <QuickChat roomCode={roomCode} />
+
+            {/* Copyright */}
+            <div className="text-center text-xs py-3 text-tet-cream/30">
+                © 2026{" "}
+                <a
+                    href="https://www.hailamdev.space/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-tet-gold/50 hover:text-tet-gold underline underline-offset-2 transition-colors"
+                >
+                    Hailamdev
+                </a>
+            </div>
         </div>
     );
 }

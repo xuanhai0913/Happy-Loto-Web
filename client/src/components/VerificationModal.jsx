@@ -45,7 +45,13 @@ const VerificationModal = memo(function VerificationModal({ data, isMe }) {
                 {/* Header */}
                 <div className="text-center space-y-2">
                     <div className="text-3xl">
-                        {isWaiting ? "🔍" : isValid ? "🏆✅" : "🚨❌"}
+                        {isWaiting ? (
+                            <span>🔍</span>
+                        ) : isValid ? (
+                            <img src="/images/meme/mewnhanlixi.png" alt="Thắng" className="w-24 h-24 mx-auto rounded-2xl shadow-lg object-cover" />
+                        ) : (
+                            <img src="/images/meme/mewngaingung.png" alt="Kinh hụt" className="w-24 h-24 mx-auto rounded-2xl shadow-lg object-cover" />
+                        )}
                     </div>
                     <h2
                         className={`text-xl font-black ${isWaiting

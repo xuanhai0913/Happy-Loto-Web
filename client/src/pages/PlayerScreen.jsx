@@ -312,8 +312,8 @@ export default function PlayerScreen() {
 
                 {/* Result Overlays */}
                 {result === "win" && (
-                    <div className="card bg-gradient-to-r from-tet-gold/20 to-yellow-500/20 border-tet-gold/40 text-center py-8 space-y-3">
-                        <div className="text-6xl">🏆🎉🎊</div>
+                    <div className="card bg-gradient-to-r from-tet-gold/20 to-yellow-500/20 border-tet-gold/40 text-center py-6 space-y-3">
+                        <img src="/images/meme/mewnhanlixi.png" alt="Mèo nhận lì xì" className="w-32 h-32 mx-auto rounded-2xl shadow-lg object-cover" />
                         <h2 className="text-3xl font-black text-tet-gold">KINH RỒI!</h2>
                         <p className="text-tet-cream/80">{resultMessage}</p>
                         <p className="text-tet-gold/60 text-sm">Bạn là người chiến thắng! 🎆</p>
@@ -321,30 +321,27 @@ export default function PlayerScreen() {
                 )}
 
                 {result === "fail" && (
-                    <div className="card bg-red-900/40 border-red-500/40 text-center py-8 space-y-3 animate-shake">
-                        <div className="text-6xl">🚨😂</div>
-                        <h2 className="text-2xl font-black text-red-400">KINH HỤT!</h2>
-                        <p className="text-tet-cream/70">{resultMessage}</p>
-                        <div className="mt-4 p-3 bg-tet-cream/10 rounded-xl">
-                            <p className="text-4xl">🤡</p>
-                            <p className="text-xs text-tet-cream/50 mt-1">Nghe kỹ rồi hãy kinh nha!</p>
-                        </div>
+                    <div className="card bg-red-50 border-red-300 text-center py-6 space-y-3 animate-shake">
+                        <img src="/images/meme/mewngaingung.png" alt="Mèo ngại ngùng" className="w-32 h-32 mx-auto rounded-2xl shadow-lg object-cover" />
+                        <h2 className="text-2xl font-black text-red-500">KINH HỤT!</h2>
+                        <p className="text-tet-cream/80">{resultMessage}</p>
+                        <p className="text-xs text-tet-cream/50">Nghe kỹ rồi hãy kinh nha!</p>
                         <button
                             onClick={() => { setResult(null); setResultMessage(""); }}
-                            className="mt-3 text-sm bg-tet-cream/10 hover:bg-tet-cream/15 px-4 py-2 rounded-lg transition-all cursor-pointer"
+                            className="mt-2 text-sm bg-red-100 hover:bg-red-200 text-red-600 px-4 py-2 rounded-lg transition-all cursor-pointer font-bold"
                         >
-                            OK
+                            OK, tôi hiểu rồi 😅
                         </button>
                     </div>
                 )}
 
                 {winnerAlert && result !== "win" && (
                     <div className="card bg-gradient-to-r from-tet-gold/10 to-yellow-500/10 border-tet-gold/30 text-center py-6 space-y-2">
-                        <div className="text-4xl">🏆</div>
+                        <img src="/images/meme/mewmituoc.png" alt="Mèo mít ướt" className="w-28 h-28 mx-auto rounded-2xl shadow-lg object-cover" />
                         <h2 className="text-xl font-bold text-tet-gold">
                             {winnerAlert.playerName || "Ai đó"} đã KINH!
                         </h2>
-                        <p className="text-tet-cream/100 text-sm">Ván này đã kết thúc</p>
+                        <p className="text-tet-cream/80 text-sm">Ván này đã kết thúc... Hẹn ván sau nhé!</p>
                     </div>
                 )}
 
