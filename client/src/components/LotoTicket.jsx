@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { memo, useMemo } from "react";
 
 // Single ticket colors - one per ticket
 const TICKET_COLORS = [
@@ -14,9 +14,13 @@ const TICKET_COLORS = [
 const LotoTicket = memo(function LotoTicket({ ticket, selectedNumbers, calledNumbers, onToggle, playerName }) {
     if (!ticket) return null;
 
-    // Pick ONE consistent color based on playerName (hash-based, not random)
-    const hash = (playerName || "").split("").reduce((acc, char) => acc + char.charCodeAt(0), 0);
-    const ticketColor = TICKET_COLORS[hash % TICKET_COLORS.length];
+    // Pick color based on playerName + ticket data (so reroll changes color)
+    const ticketColor = useMemo(() => {
+        let hash = (playerName || "").split("").reduce((acc, c) => acc + c.charCodeAt(0), 0);
+        const firstNum = ticket.flat().find((n) => n !== null) || 0;
+        hash += firstNum * 7;
+        return TICKET_COLORS[hash % TICKET_COLORS.length];
+    }, [playerName, ticket]);
 
     return (
         <div className="single-color-ticket" style={{ borderColor: ticketColor }}>

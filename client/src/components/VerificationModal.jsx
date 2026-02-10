@@ -1,20 +1,28 @@
-import { memo } from "react";
+import { memo, useMemo } from "react";
 
-const ROW_COLORS = [
-    { bg: "#E85D2C", text: "#FFFFFF", border: "#C74A20" },
-    { bg: "#2E9E4F", text: "#FFFFFF", border: "#237A3C" },
-    { bg: "#E84393", text: "#FFFFFF", border: "#C5357B" },
-    { bg: "#F5A623", text: "#FFFFFF", border: "#D4901D" },
-    { bg: "#3498DB", text: "#FFFFFF", border: "#2980B9" },
-    { bg: "#E74C3C", text: "#FFFFFF", border: "#C0392B" },
-    { bg: "#8E44AD", text: "#FFFFFF", border: "#7D3C98" },
-    { bg: "#1ABC9C", text: "#FFFFFF", border: "#16A085" },
-    { bg: "#E67E22", text: "#FFFFFF", border: "#D35400" },
+const TICKET_COLORS = [
+    "#FFD700", // Vàng (Yellow)
+    "#FF5722", // Cam (Orange)
+    "#4CAF50", // Xanh lá (Green)
+    "#2196F3", // Xanh dương (Blue)
+    "#E91E63", // Hồng (Pink)
+    "#9C27B0", // Tím (Purple)
+    "#00BCD4", // Xanh ngọc (Cyan)
 ];
+
+function getTicketColor(playerName, ticket) {
+    let hash = (playerName || "").split("").reduce((acc, c) => acc + c.charCodeAt(0), 0);
+    if (ticket && ticket.length > 0) {
+        const firstNum = ticket.flat().find((n) => n !== null) || 0;
+        hash += firstNum * 7;
+    }
+    return TICKET_COLORS[hash % TICKET_COLORS.length];
+}
 
 /**
  * VerificationModal - "Dò Vé Công Khai"
  * Shows the claimer's ticket to everyone for dramatic public verification.
+ * Uses the SAME single-color ticket theme as LotoTicket.
  */
 const VerificationModal = memo(function VerificationModal({ data, isMe }) {
     if (!data) return null;
@@ -30,6 +38,9 @@ const VerificationModal = memo(function VerificationModal({ data, isMe }) {
 
     const isWaiting = !result;
     const isValid = result?.valid;
+
+    // Same color logic as LotoTicket
+    const ticketColor = useMemo(() => getTicketColor(playerName, ticket), [playerName, ticket]);
 
     return (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
@@ -72,103 +83,44 @@ const VerificationModal = memo(function VerificationModal({ data, isMe }) {
                     </p>
                 </div>
 
-                {/* Ticket Display - Traditional Style */}
+                {/* Ticket Display - SINGLE COLOR Traditional Style */}
                 {ticket && (
-                    <div className="loto-ticket-traditional" style={{ borderWidth: "2px" }}>
-                        <div className="ticket-grid" style={{ padding: "3px", gap: "2px" }}>
-                            {ticket.map((row, rIdx) => {
-                                const color = ROW_COLORS[rIdx % ROW_COLORS.length];
+                    <div className="single-color-ticket" style={{ borderColor: ticketColor, borderWidth: "3px" }}>
+                        {/* Header */}
+                        <div className="ticket-header-section" style={{ background: ticketColor, padding: "8px 10px" }}>
+                            <div className="player-name-display" style={{ fontSize: "13px" }}>
+                                {playerName || "Người chơi"}
+                            </div>
+                        </div>
 
-                                return (
-                                    <div key={rIdx} className="relative">
-                                        {/* Highlight the claimed row */}
-                                        {rIdx === rowIndex && (
-                                            <div
-                                                className={`absolute inset-0 rounded-lg border-3 -m-0.5 z-10 pointer-events-none
-                      ${isWaiting
-                                                        ? "border-tet-gold animate-pulse"
-                                                        : isValid
-                                                            ? "border-green-400"
-                                                            : "border-red-400"
-                                                    }`}
-                                                style={{ borderWidth: "3px" }}
-                                            />
-                                        )}
+                        {/* Section 1: Rows 0-2 */}
+                        <div className="ticket-section">
+                            {ticket.slice(0, 3).map((row, rIdx) => renderVerifyRow(row, rIdx, rIdx, rowIndex, rowNumbers, calledNumbers, result, ticketColor, isWaiting, isValid))}
+                        </div>
 
-                                        <div style={{
-                                            display: "grid",
-                                            gridTemplateColumns: "repeat(9, 1fr)",
-                                            gap: "2px",
-                                        }}>
-                                            {row.map((num, cIdx) => {
-                                                if (num === null) {
-                                                    return (
-                                                        <div
-                                                            key={`${rIdx}-${cIdx}`}
-                                                            style={{
-                                                                height: "30px",
-                                                                backgroundColor: `${color.bg}15`,
-                                                                borderRadius: "4px",
-                                                                border: `1px dashed ${color.border}30`,
-                                                            }}
-                                                        />
-                                                    );
-                                                }
+                        {/* Divider 1 */}
+                        <div className="ticket-divider" style={{ background: ticketColor, padding: "6px", fontSize: "11px" }}>
+                            Mã đáo thành công
+                        </div>
 
-                                                const isInClaimedRow = rIdx === rowIndex && rowNumbers.includes(num);
-                                                const wasCalled = calledNumbers?.includes(num);
-                                                const isInvalid = result?.invalidNumbers?.includes(num);
+                        {/* Section 2: Rows 3-5 */}
+                        <div className="ticket-section">
+                            {ticket.slice(3, 6).map((row, rIdx) => renderVerifyRow(row, rIdx + 3, rIdx + 3, rowIndex, rowNumbers, calledNumbers, result, ticketColor, isWaiting, isValid))}
+                        </div>
 
-                                                let bgColor = color.bg;
-                                                let txtColor = color.text;
-                                                let extraStyle = {};
+                        {/* Divider 2 */}
+                        <div className="ticket-divider" style={{ background: ticketColor, padding: "6px", fontSize: "11px" }}>
+                            An Khang Thịnh Vượng
+                        </div>
 
-                                                if (isInvalid) {
-                                                    bgColor = "#EF4444";
-                                                    txtColor = "#FFFFFF";
-                                                    extraStyle = {
-                                                        boxShadow: "0 0 0 2px #FCA5A5",
-                                                        animation: "shake 0.6s ease-in-out",
-                                                    };
-                                                } else if (isInClaimedRow && wasCalled) {
-                                                    bgColor = "#22C55E";
-                                                    txtColor = "#FFFFFF";
-                                                    extraStyle = { boxShadow: "0 0 8px rgba(34,197,94,0.4)" };
-                                                } else if (isInClaimedRow) {
-                                                    bgColor = "#FFD700";
-                                                    txtColor = "#8B0000";
-                                                } else if (wasCalled) {
-                                                    bgColor = "#FFD700";
-                                                    txtColor = "#8B0000";
-                                                    extraStyle = { opacity: 0.7 };
-                                                }
+                        {/* Section 3: Rows 6-8 */}
+                        <div className="ticket-section">
+                            {ticket.slice(6, 9).map((row, rIdx) => renderVerifyRow(row, rIdx + 6, rIdx + 6, rowIndex, rowNumbers, calledNumbers, result, ticketColor, isWaiting, isValid))}
+                        </div>
 
-                                                return (
-                                                    <div
-                                                        key={`${rIdx}-${cIdx}`}
-                                                        style={{
-                                                            height: "30px",
-                                                            display: "flex",
-                                                            alignItems: "center",
-                                                            justifyContent: "center",
-                                                            fontSize: "12px",
-                                                            fontWeight: "800",
-                                                            borderRadius: "4px",
-                                                            backgroundColor: bgColor,
-                                                            color: txtColor,
-                                                            border: `1px solid ${color.border}`,
-                                                            transition: "all 0.5s",
-                                                            ...extraStyle,
-                                                        }}
-                                                    >
-                                                        {num}
-                                                    </div>
-                                                );
-                                            })}
-                                        </div>
-                                    </div>
-                                );
-                            })}
+                        {/* Footer */}
+                        <div className="ticket-footer-section" style={{ background: ticketColor, padding: "8px 10px" }}>
+                            <div className="footer-text" style={{ fontSize: "11px" }}>Chúc bạn may mắn</div>
                         </div>
                     </div>
                 )}
@@ -217,5 +169,95 @@ const VerificationModal = memo(function VerificationModal({ data, isMe }) {
         </div>
     );
 });
+
+function renderVerifyRow(row, rIdx, actualRowIdx, claimedRowIndex, rowNumbers, calledNumbers, result, ticketColor, isWaiting, isValid) {
+    const isClaimedRow = actualRowIdx === claimedRowIndex;
+
+    return (
+        <div key={rIdx} className="relative">
+            {/* Highlight the claimed row */}
+            {isClaimedRow && (
+                <div
+                    className="absolute inset-0 z-10 pointer-events-none"
+                    style={{
+                        border: `3px solid ${isWaiting ? "#FFD700" : isValid ? "#22C55E" : "#EF4444"}`,
+                        animation: isWaiting ? "pulse 2s infinite" : "none",
+                    }}
+                />
+            )}
+
+            <div style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(9, 1fr)",
+                gap: "0",
+                borderBottom: "1px solid rgba(0,0,0,0.1)",
+            }}>
+                {row.map((num, cIdx) => {
+                    if (num === null) {
+                        return (
+                            <div
+                                key={`${rIdx}-${cIdx}`}
+                                style={{
+                                    height: "32px",
+                                    backgroundColor: "#FFFFFF",
+                                    borderRight: "1px solid rgba(0,0,0,0.05)",
+                                }}
+                            />
+                        );
+                    }
+
+                    const isInClaimedRow = isClaimedRow && rowNumbers.includes(num);
+                    const wasCalled = calledNumbers?.includes(num);
+                    const isInvalid = result?.invalidNumbers?.includes(num);
+
+                    let bgColor = ticketColor;
+                    let txtColor = "#000";
+                    let extraStyle = {};
+
+                    if (isInvalid) {
+                        bgColor = "#EF4444";
+                        txtColor = "#FFFFFF";
+                        extraStyle = {
+                            boxShadow: "0 0 0 2px #FCA5A5",
+                            animation: "shake 0.6s ease-in-out",
+                        };
+                    } else if (isInClaimedRow && wasCalled) {
+                        bgColor = "#22C55E";
+                        txtColor = "#FFFFFF";
+                        extraStyle = { boxShadow: "0 0 8px rgba(34,197,94,0.4)" };
+                    } else if (isInClaimedRow) {
+                        bgColor = "#FFD700";
+                        txtColor = "#8B0000";
+                    } else if (wasCalled) {
+                        bgColor = "#FFD700";
+                        txtColor = "#8B0000";
+                        extraStyle = { opacity: 0.7 };
+                    }
+
+                    return (
+                        <div
+                            key={`${rIdx}-${cIdx}`}
+                            style={{
+                                height: "32px",
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                fontSize: "13px",
+                                fontWeight: "900",
+                                backgroundColor: bgColor,
+                                color: txtColor,
+                                borderRight: "1px solid rgba(255,255,255,0.3)",
+                                transition: "all 0.5s",
+                                ...extraStyle,
+                            }}
+                        >
+                            {num}
+                        </div>
+                    );
+                })}
+            </div>
+        </div>
+    );
+}
 
 export default VerificationModal;
