@@ -181,7 +181,7 @@ export default function PlayerScreen() {
     const handleKinh = () => {
         if (!ticket || isSubmittingKinh) return;
 
-        for (let rowIdx = 0; rowIdx < 3; rowIdx++) {
+        for (let rowIdx = 0; rowIdx < 9; rowIdx++) {
             const rowNumbers = ticket[rowIdx].filter((n) => n !== null);
             const selectedInRow = rowNumbers.filter((n) => selectedNumbers.has(n));
 

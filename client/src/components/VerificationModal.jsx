@@ -37,10 +37,10 @@ const VerificationModal = memo(function VerificationModal({ data, isMe }) {
                     </div>
                     <h2
                         className={`text-xl font-black ${isWaiting
-                                ? "text-tet-gold"
-                                : isValid
-                                    ? "text-green-400"
-                                    : "text-red-400"
+                            ? "text-tet-gold"
+                            : isValid
+                                ? "text-green-400"
+                                : "text-red-400"
                             }`}
                     >
                         {isWaiting
@@ -78,7 +78,7 @@ const VerificationModal = memo(function VerificationModal({ data, isMe }) {
                                             return (
                                                 <div
                                                     key={`${rIdx}-${cIdx}`}
-                                                    className="h-9 flex items-center justify-center text-white/5 text-xs rounded"
+                                                    className="h-7 flex items-center justify-center text-white/5 text-[10px] rounded"
                                                 >
                                                     ·
                                                 </div>
@@ -90,7 +90,7 @@ const VerificationModal = memo(function VerificationModal({ data, isMe }) {
                                         const isInvalid = result?.invalidNumbers?.includes(num);
 
                                         let cellClass =
-                                            "h-9 flex items-center justify-center text-xs font-bold rounded transition-all duration-500 ";
+                                            "h-7 flex items-center justify-center text-[10px] font-bold rounded transition-all duration-500 ";
 
                                         if (isInvalid) {
                                             // Number NOT called - highlight RED

@@ -50,36 +50,61 @@ function generateTicket() {
         [80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90],
     ];
 
-    const columnNumbers = columnRanges.map((range) => {
-        const shuffled = [...range].sort(() => Math.random() - 0.5);
-        return shuffled.slice(0, 3);
-    });
+    // 9 rows × 9 columns, each row has exactly 5 numbers
+    for (let attempt = 0; attempt < 100; attempt++) {
+        const ticket = Array.from({ length: 9 }, () => new Array(9).fill(null));
+        const colCounts = new Array(9).fill(0);
+        let valid = true;
 
-    const ticket = [
-        new Array(9).fill(null),
-        new Array(9).fill(null),
-        new Array(9).fill(null),
-    ];
+        // Step 1: Assign 5 columns per row
+        for (let row = 0; row < 9; row++) {
+            const available = [0, 1, 2, 3, 4, 5, 6, 7, 8].filter(
+                (c) => colCounts[c] < columnRanges[c].length
+            );
+            if (available.length < 5) { valid = false; break; }
 
-    for (let row = 0; row < 3; row++) {
-        const colIndices = [0, 1, 2, 3, 4, 5, 6, 7, 8]
-            .sort(() => Math.random() - 0.5)
-            .slice(0, 5)
-            .sort((a, b) => a - b);
+            const cols = available
+                .sort(() => Math.random() - 0.5)
+                .slice(0, 5)
+                .sort((a, b) => a - b);
 
-        colIndices.forEach((col) => {
-            ticket[row][col] = columnNumbers[col][row];
-        });
-    }
+            cols.forEach((col) => {
+                ticket[row][col] = -1; // placeholder
+                colCounts[col]++;
+            });
+        }
 
-    for (let row = 0; row < 3; row++) {
+        if (!valid) continue;
+
+        // Step 2: Fill in actual numbers from column ranges
         for (let col = 0; col < 9; col++) {
-            if (ticket[row][col] === undefined) {
-                ticket[row][col] = null;
+            const count = colCounts[col];
+            if (count === 0) continue;
+            const shuffled = [...columnRanges[col]].sort(() => Math.random() - 0.5);
+            const selected = shuffled.slice(0, count).sort((a, b) => a - b);
+
+            let idx = 0;
+            for (let row = 0; row < 9; row++) {
+                if (ticket[row][col] === -1) {
+                    ticket[row][col] = selected[idx++];
+                }
             }
         }
+
+        return ticket;
     }
 
+    // Fallback: simple ticket if algorithm fails (should never happen)
+    const ticket = Array.from({ length: 9 }, () => new Array(9).fill(null));
+    for (let row = 0; row < 9; row++) {
+        const cols = [0, 1, 2, 3, 4, 5, 6, 7, 8]
+            .sort(() => Math.random() - 0.5)
+            .slice(0, 5);
+        cols.forEach((col) => {
+            const range = columnRanges[col];
+            ticket[row][col] = range[Math.floor(Math.random() * range.length)];
+        });
+    }
     return ticket;
 }
 
