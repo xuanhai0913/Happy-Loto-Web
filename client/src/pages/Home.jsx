@@ -109,132 +109,233 @@ export default function Home() {
     };
 
     return (
-        <div className="min-h-dvh flex flex-col items-center justify-center p-4 relative overflow-hidden">
-            {/* Background decorations */}
-            <div className="absolute inset-0 pointer-events-none">
-                <div className="absolute top-10 left-10 w-16 h-16 rounded-full bg-tet-gold/10 animate-bounce" style={{ animationDuration: '3s' }} />
-                <div className="absolute top-20 right-16 w-12 h-12 rounded-full bg-tet-red/10 animate-bounce" style={{ animationDuration: '4s', animationDelay: '1s' }} />
-                <div className="absolute bottom-20 left-20 w-14 h-14 rounded-full bg-tet-gold/10 animate-bounce" style={{ animationDuration: '3.5s', animationDelay: '0.5s' }} />
-                <div className="absolute bottom-32 right-10 w-16 h-16 rounded-full bg-tet-red/10 animate-bounce" style={{ animationDuration: '4.5s', animationDelay: '2s' }} />
-                <div className="absolute top-1/3 left-1/4 w-8 h-8 rounded-full bg-tet-gold/5 animate-pulse" />
-                <div className="absolute top-1/2 right-1/4 w-10 h-10 rounded-full bg-pink-500/5 animate-pulse" style={{ animationDelay: '1s' }} />
+        <div
+            className="min-h-dvh flex flex-col"
+            style={{
+                fontFamily: "'Quicksand', sans-serif",
+                background: "linear-gradient(180deg, #FFF7ED 0%, #FFEDD5 50%, #FFF7ED 100%)",
+            }}
+        >
+            {/* Decorative blurred circles */}
+            <div className="fixed inset-0 overflow-hidden pointer-events-none">
+                <div
+                    className="absolute rounded-full"
+                    style={{
+                        width: 128, height: 128, top: 40, left: 40,
+                        background: "rgba(251, 191, 36, 0.15)",
+                        filter: "blur(40px)",
+                    }}
+                />
+                <div
+                    className="absolute rounded-full"
+                    style={{
+                        width: 192, height: 192, bottom: 80, right: 40,
+                        background: "rgba(251, 146, 60, 0.12)",
+                        filter: "blur(60px)",
+                    }}
+                />
+                <div
+                    className="absolute rounded-full"
+                    style={{
+                        width: 96, height: 96, top: "33%", left: "25%",
+                        background: "rgba(253, 224, 71, 0.15)",
+                        filter: "blur(30px)",
+                    }}
+                />
+                <div
+                    className="absolute rounded-full"
+                    style={{
+                        width: 160, height: 160, top: 80, right: "25%",
+                        background: "rgba(252, 165, 165, 0.1)",
+                        filter: "blur(40px)",
+                    }}
+                />
             </div>
 
             {/* Main content */}
-            <div className="relative z-10 w-full max-w-md space-y-8">
-                {/* Logo & Title */}
-                <div className="text-center space-y-3">
-                    <img src="/images/loto-logo.png" alt="Happy Loto" className="w-28 h-28 mx-auto mb-4 drop-shadow-lg" />
-                    <h1 className="text-4xl font-black bg-gradient-to-r from-tet-gold via-tet-gold-light to-tet-gold bg-clip-text text-transparent">
-                        HAPPY LOTO
-                    </h1>
-                    <p className="text-tet-gold/60 text-sm font-medium tracking-widest uppercase">
-                        Xuân Bính Ngọ • Lô Tô Online
-                    </p>
-                    <div className="flex items-center justify-center gap-2 mt-2">
-                        <span className="h-px w-12 bg-gradient-to-r from-transparent to-tet-gold/40"></span>
-                        <span className="text-tet-gold/60 text-xs">❖</span>
-                        <span className="h-px w-12 bg-gradient-to-l from-transparent to-tet-gold/40"></span>
-                    </div>
-                </div>
+            <div className="relative z-10 flex-grow flex flex-col items-center justify-center p-4 sm:p-6 w-full max-w-lg mx-auto">
 
-                {/* Create Room */}
-                <div className="card space-y-4">
-                    <h2 className="text-lg font-bold text-tet-gold flex items-center gap-2">
-                        Tạo Phòng Mới
-                    </h2>
-                    <p className="text-tet-cream/50 text-sm">
-                        Bạn sẽ là chủ xị, quay số và điều khiển ván chơi.
-                    </p>
-                    <button
-                        onClick={handleCreateRoom}
-                        disabled={loading}
-                        className="btn-primary w-full text-lg disabled:opacity-50"
-                    >
-                        {loading ? "Đang tạo..." : "TẠO PHÒNG"}
-                    </button>
-                </div>
-
-                {/* Divider */}
-                <div className="flex items-center gap-4">
-                    <span className="flex-1 h-px bg-tet-cream/20"></span>
-                    <span className="text-tet-cream/40 text-sm font-medium">HOẶC</span>
-                    <span className="flex-1 h-px bg-tet-cream/20"></span>
-                </div>
-
-                {/* Join Room */}
-                <div className="card space-y-4">
-                    <h2 className="text-lg font-bold text-tet-gold flex items-center gap-2">
-                        Vào Phòng
-                    </h2>
-
-                    {/* Player name */}
-                    <input
-                        type="text"
-                        value={playerName}
-                        onChange={(e) => setPlayerName(e.target.value)}
-                        placeholder="Tên của bạn (tùy chọn)"
-                        maxLength={20}
-                        className="w-full bg-tet-card-light border border-tet-red/10 rounded-xl px-4 py-2.5
-                       text-sm text-tet-cream placeholder:text-tet-cream/30
-                       focus:outline-none focus:border-tet-gold/40 transition-colors"
-                    />
-
-                    <div className="flex flex-col gap-3">
-                        <input
-                            type="text"
-                            inputMode="numeric"
-                            value={roomCode}
-                            onChange={handleCodeInput}
-                            placeholder="Mã phòng"
-                            maxLength={4}
-                            className="w-full bg-tet-card-light border-2 border-tet-gold/30 rounded-xl px-4 py-3
-                         text-center text-2xl font-bold text-tet-gold tracking-[0.5em]
-                         placeholder:text-tet-cream/30 placeholder:text-base placeholder:tracking-normal
-                         focus:outline-none focus:border-tet-gold transition-colors"
+                {/* Header / Logo */}
+                <header className="text-center mb-8">
+                    <div className="mx-auto w-24 h-24 mb-4">
+                        <img
+                            src="/images/loto-logo.png"
+                            alt="Happy Loto"
+                            className="w-full h-full object-contain drop-shadow-lg hover:scale-105 transition-transform duration-300"
                         />
-                        <button
-                            onClick={() => handleJoinRoom()}
-                            disabled={loading || roomCode.length !== 4}
-                            className="btn-danger w-full py-4 text-lg disabled:opacity-50"
+                    </div>
+                    <h1
+                        className="text-4xl md:text-5xl font-bold tracking-wide mb-2 uppercase"
+                        style={{ color: "#EAB308", textShadow: "0 1px 2px rgba(0,0,0,0.1)" }}
+                    >
+                        Happy Loto
+                    </h1>
+                    <p
+                        className="font-medium tracking-widest text-sm uppercase"
+                        style={{ color: "#FB923C" }}
+                    >
+                        🎊 Xuân Bính Ngọ • Lô Tô Online 🎊
+                    </p>
+                    <div className="mt-4 flex items-center justify-center gap-2">
+                        <span className="w-12 h-px opacity-50" style={{ background: "#FDBA74" }} />
+                        <span
+                            className="text-xl leading-none"
+                            style={{ color: "#FDBA74", transform: "rotate(45deg)", display: "inline-block" }}
                         >
-                            VÀO
+                            ❖
+                        </span>
+                        <span className="w-12 h-px opacity-50" style={{ background: "#FDBA74" }} />
+                    </div>
+                </header>
+
+                {/* Cards */}
+                <main className="w-full space-y-6">
+
+                    {/* Create Room Card */}
+                    <div
+                        className="rounded-2xl shadow-xl p-6 md:p-8 transition-transform duration-300 hover:-translate-y-1"
+                        style={{ background: "#FFFFFF" }}
+                    >
+                        <h2
+                            className="text-xl font-bold mb-2"
+                            style={{ color: "#F97316" }}
+                        >
+                            Tạo Phòng Mới
+                        </h2>
+                        <p className="text-sm mb-6" style={{ color: "#9CA3AF" }}>
+                            Bạn sẽ là chủ xị, quay số và điều khiển ván chơi.
+                        </p>
+                        <button
+                            onClick={handleCreateRoom}
+                            disabled={loading}
+                            className="w-full font-bold py-3 px-6 rounded-xl shadow-md hover:shadow-lg transition-all duration-200 active:scale-95 text-lg uppercase tracking-wide disabled:opacity-50 cursor-pointer"
+                            style={{
+                                background: "linear-gradient(135deg, #F59E0B, #D97706)",
+                                color: "#FFFFFF",
+                            }}
+                        >
+                            {loading ? "Đang tạo..." : "Tạo Phòng"}
                         </button>
                     </div>
-                </div>
 
-                {/* Leaderboard Link */}
-                <button
-                    onClick={() => navigate("/leaderboard")}
-                    className="w-full bg-tet-card hover:bg-tet-gold/10 border border-tet-gold/20 text-tet-gold font-bold py-3 px-6 rounded-xl transition-all cursor-pointer flex items-center justify-center gap-2"
-                >
-                    Bảng Xếp Hạng
-                </button>
-
-                {/* Error */}
-                {error && (
-                    <div className="bg-red-100 border border-red-300 rounded-xl p-3 text-center text-red-600 text-sm animate-shake">
-                        {error}
+                    {/* Divider */}
+                    <div className="flex items-center justify-center gap-4 text-sm font-medium uppercase tracking-wider">
+                        <span className="h-px w-full" style={{ background: "#D1D5DB" }} />
+                        <span style={{ color: "#9CA3AF" }}>Hoặc</span>
+                        <span className="h-px w-full" style={{ background: "#D1D5DB" }} />
                     </div>
-                )}
 
-                <div className="text-center text-xs pt-4 space-y-1">
-                    <p className="text-tet-cream/40">
-                        Made with ❤ for Tết 2026 • Happy Loto v1.0
+                    {/* Join Room Card */}
+                    <div
+                        className="rounded-2xl shadow-xl p-6 md:p-8 transition-transform duration-300 hover:-translate-y-1"
+                        style={{ background: "#FFFFFF" }}
+                    >
+                        <h2
+                            className="text-xl font-bold mb-6"
+                            style={{ color: "#F97316" }}
+                        >
+                            Vào Phòng
+                        </h2>
+
+                        <div className="space-y-4">
+                            {/* Player name */}
+                            <input
+                                type="text"
+                                value={playerName}
+                                onChange={(e) => setPlayerName(e.target.value)}
+                                placeholder="Tên của bạn (tùy chọn)"
+                                maxLength={20}
+                                className="w-full rounded-xl px-4 py-3 text-sm transition-all focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent"
+                                style={{
+                                    background: "#FFF7ED",
+                                    border: "1px solid #FED7AA",
+                                    color: "#374151",
+                                }}
+                            />
+
+                            {/* Room code */}
+                            <input
+                                type="text"
+                                inputMode="numeric"
+                                value={roomCode}
+                                onChange={handleCodeInput}
+                                placeholder="Mã phòng"
+                                maxLength={4}
+                                className="w-full rounded-xl px-4 py-3 text-center font-bold text-2xl tracking-[0.5em] transition-all focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent"
+                                style={{
+                                    background: "#FFF7ED",
+                                    border: "2px solid #FDBA74",
+                                    color: "#D97706",
+                                }}
+                            />
+
+                            {/* Join button */}
+                            <button
+                                onClick={() => handleJoinRoom()}
+                                disabled={loading || roomCode.length !== 4}
+                                className="w-full font-bold py-3 px-6 rounded-xl shadow-md hover:shadow-lg transition-all duration-200 active:scale-95 text-lg uppercase tracking-wide mt-2 disabled:opacity-50 cursor-pointer"
+                                style={{
+                                    background: "linear-gradient(135deg, #FB7185, #E11D48)",
+                                    color: "#FFFFFF",
+                                }}
+                            >
+                                Vào
+                            </button>
+                        </div>
+                    </div>
+
+                    {/* Leaderboard Button */}
+                    <button
+                        onClick={() => navigate("/leaderboard")}
+                        className="w-full font-bold py-4 px-6 rounded-2xl shadow-lg transition-all duration-200 flex items-center justify-center gap-2 group cursor-pointer hover:-translate-y-0.5"
+                        style={{
+                            background: "#FFFFFF",
+                            color: "#F97316",
+                        }}
+                    >
+                        <span
+                            className="material-icons-round group-hover:scale-110 transition-transform"
+                            style={{ fontSize: 24 }}
+                        >
+                            emoji_events
+                        </span>
+                        Bảng Xếp Hạng
+                    </button>
+
+                    {/* Error */}
+                    {error && (
+                        <div
+                            className="rounded-xl p-3 text-center text-sm animate-shake"
+                            style={{
+                                background: "#FEF2F2",
+                                border: "1px solid #FCA5A5",
+                                color: "#DC2626",
+                            }}
+                        >
+                            {error}
+                        </div>
+                    )}
+                </main>
+
+                {/* Footer */}
+                <footer className="mt-12 text-center space-y-2" style={{ opacity: 0.7 }}>
+                    <p className="text-xs font-medium" style={{ color: "#6B7280" }}>
+                        Made with <span className="text-rose-500 animate-pulse">❤</span> for Tết 2026 • Happy Loto v1.0
                     </p>
-                    <p className="text-tet-cream/30">
+                    <p className="text-[10px]" style={{ color: "#9CA3AF" }}>
                         © 2026{" "}
                         <a
                             href="https://www.hailamdev.space/"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-tet-gold hover:text-tet-gold-light underline underline-offset-2 transition-colors"
+                            className="hover:underline"
+                            style={{ color: "#FB923C" }}
                         >
                             Hailamdev
                         </a>
                         {" "}• All rights reserved
                     </p>
-                </div>
+                </footer>
             </div>
         </div>
     );
