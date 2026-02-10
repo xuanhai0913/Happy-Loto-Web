@@ -28,8 +28,7 @@ COPY --from=builder /app/client/dist ./client/dist
 # Copy audio files
 COPY public/audio/ ./public/audio/
 
-# Copy loto data
-COPY data/ ./data/
+
 
 EXPOSE 3001
 
