@@ -163,7 +163,7 @@ export default function HostScreen() {
                         className="w-full flex items-center justify-between cursor-pointer"
                     >
                         <h3 className="text-sm font-bold text-tet-gold flex items-center gap-2">
-                            <span>👥</span> Người chơi
+                            Người chơi
                             <span className="bg-tet-gold/20 text-tet-gold text-xs px-2 py-0.5 rounded-full font-black">
                                 {onlineCount}/{playerCount}
                             </span>
@@ -183,22 +183,22 @@ export default function HostScreen() {
                                         key={p.id}
                                         className={`flex items-center gap-3 text-sm py-2 px-3 rounded-xl transition-all ${p.online
                                             ? "bg-green-500/10 border border-green-500/20"
-                                            : "bg-gray-500/10 border border-gray-500/10"
+                                            : "bg-red-500/10 border border-red-500/15"
                                             }`}
                                     >
-                                        <span className="text-tet-cream/40 text-xs font-bold w-5 text-center">
+                                        <span className="text-gray-500 text-xs font-bold w-5 text-center">
                                             {idx + 1}
                                         </span>
-                                        <span className={`w-2.5 h-2.5 rounded-full flex-shrink-0 ${p.online ? "bg-green-400 shadow-sm shadow-green-400/50" : "bg-gray-500"
+                                        <span className={`w-2.5 h-2.5 rounded-full flex-shrink-0 ${p.online ? "bg-green-400 shadow-sm shadow-green-400/50" : "bg-red-400"
                                             }`} />
-                                        <span className={`font-bold truncate ${p.online ? "text-white" : "text-tet-cream/30 line-through"
+                                        <span className={`font-bold truncate ${p.online ? "text-green-800" : "text-red-400/60 line-through"
                                             }`}>
                                             {p.name}
                                         </span>
                                         {p.online ? (
-                                            <span className="ml-auto text-[10px] text-green-400">online</span>
+                                            <span className="ml-auto text-[10px] font-semibold text-green-600">online</span>
                                         ) : (
-                                            <span className="ml-auto text-[10px] text-red-400">mất kết nối</span>
+                                            <span className="ml-auto text-[10px] font-semibold text-red-400">offline</span>
                                         )}
                                     </div>
                                 ))
@@ -261,7 +261,7 @@ export default function HostScreen() {
                             disabled={playerCount === 0}
                             className="btn-primary col-span-2 text-lg disabled:opacity-50"
                         >
-                            🎮 BẮT ĐẦU ({onlineCount} online)
+                            BẮT ĐẦU ({onlineCount} online)
                         </button>
                     )}
 
@@ -273,19 +273,19 @@ export default function HostScreen() {
                                 className="btn-primary text-lg col-span-2 disabled:opacity-50"
                             >
                                 {isCallingNumber
-                                    ? "⏳ Đang quay..."
+                                    ? "Đang quay..."
                                     : verification
-                                        ? "🔍 Đang dò vé..."
-                                        : "🎲 QUAY SỐ"}
+                                        ? "Đang dò vé..."
+                                        : "QUAY SỐ"}
                             </button>
                             <button onClick={handlePause} className="btn-danger">
-                                {isPaused ? "▶️ Tiếp tục" : "⏸️ Tạm dừng"}
+                                {isPaused ? "Tiếp tục" : "Tạm dừng"}
                             </button>
                             <button
                                 onClick={handleReset}
                                 className="bg-tet-cream/10 hover:bg-tet-cream/15 text-white font-bold py-3 px-6 rounded-xl transition-all cursor-pointer"
                             >
-                                🔄 Ván mới
+                                Ván mới
                             </button>
                         </>
                     )}
@@ -293,7 +293,7 @@ export default function HostScreen() {
                     {!isPlaying && calledNumbers.length > 0 && !winner && (
                         <>
                             <button onClick={handleStart} className="btn-primary col-span-1">
-                                ▶️ Tiếp tục
+                                Tiếp tục
                             </button>
                             <button
                                 onClick={handleReset}
@@ -311,13 +311,13 @@ export default function HostScreen() {
                         <QRCodeSVG value={joinLink} size={100} />
                     </div>
                     <div className="flex-1 min-w-0">
-                        <p className="text-sm font-bold text-tet-gold mb-1">📱 Quét để vào phòng</p>
+                        <p className="text-sm font-bold text-tet-gold mb-1">Quét để vào phòng</p>
                         <p className="text-xs text-tet-cream/50 break-all">{joinLink}</p>
                         <button
                             onClick={() => navigator.clipboard?.writeText(joinLink)}
                             className="mt-2 text-xs bg-tet-cream/10 hover:bg-tet-cream/15 px-3 py-1 rounded-lg transition-all cursor-pointer"
                         >
-                            📋 Copy link
+                            Copy link
                         </button>
                     </div>
                 </div>
@@ -331,13 +331,13 @@ export default function HostScreen() {
                         <img src="/images/meme/mewnhanlixi.png" alt="Chiến thắng" className="w-28 h-28 mx-auto rounded-2xl shadow-lg object-cover" />
                         <h2 className="text-2xl font-black text-tet-gold">KINH RỒI!</h2>
                         <p className="text-tet-cream/80">
-                            🎉 {winner.playerName || "Người chơi"} đã thắng!
+                            {winner.playerName || "Người chơi"} đã thắng!
                         </p>
                         <p className="text-xs text-tet-cream/50">
                             Số thắng: [{winner.rowNumbers.join(", ")}]
                         </p>
                         <button onClick={handleReset} className="btn-primary mt-4">
-                            🔄 Chơi ván mới
+                            Chơi ván mới
                         </button>
                     </div>
                 )}
