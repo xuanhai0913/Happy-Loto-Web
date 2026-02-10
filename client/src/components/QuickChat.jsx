@@ -88,7 +88,7 @@ export default function QuickChat({ roomCode }) {
                                     className={`text-xs px-3 py-1 rounded-full transition-all cursor-pointer
                     ${activeTab === "text" ? "bg-tet-gold/20 text-tet-gold" : "text-tet-cream/50 hover:text-tet-cream/70"}`}
                                 >
-                                    💬 Chat nhanh
+                                    Chat nhanh
                                 </button>
                                 <button
                                     onClick={() => setIsOpen(false)}
@@ -134,7 +134,7 @@ export default function QuickChat({ roomCode }) {
                             className="w-full text-center text-tet-cream/50 hover:text-tet-cream/70 text-sm py-1
                          transition-all cursor-pointer flex items-center justify-center gap-2"
                         >
-                            <span>💬</span> Gửi biểu cảm / Chat nhanh
+                            Gửi biểu cảm / Chat nhanh
                         </button>
                     )}
                 </div>

@@ -216,7 +216,7 @@ export default function HostScreen() {
                     <p className="text-sm text-tet-cream/50 mb-2 relative z-10">
                         {isPlaying
                             ? isPaused
-                                ? "⏸️ Tạm dừng"
+                                ? "Tạm dừng"
                                 : `Đã gọi ${calledNumbers.length}/90 số`
                             : "Chờ bắt đầu"}
                     </p>
@@ -299,7 +299,7 @@ export default function HostScreen() {
                                 onClick={handleReset}
                                 className="bg-tet-cream/10 hover:bg-tet-cream/15 text-white font-bold py-3 px-6 rounded-xl transition-all cursor-pointer"
                             >
-                                🔄 Ván mới
+                                Ván mới
                             </button>
                         </>
                     )}

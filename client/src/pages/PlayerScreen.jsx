@@ -112,7 +112,7 @@ export default function PlayerScreen() {
                 setIsPlaying(false);
                 if (data.playerId === playerId) {
                     setResult("win");
-                    setResultMessage("🎉 CHÚC MỪNG BẠN ĐÃ KINH!");
+                    setResultMessage("CHÚC MỪNG BẠN ĐÃ KINH!");
                     const end = Date.now() + 4000;
                     const fire = () => {
                         confetti({
@@ -228,15 +228,15 @@ export default function PlayerScreen() {
             <header className="bg-tet-card border-b border-tet-gold/20 px-4 py-3 sticky top-0 z-40">
                 <div className="max-w-lg mx-auto flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                        <span className="text-xl">🎟️</span>
+                        <img src="/images/loto-logo.png" alt="Loto" className="w-8 h-8 rounded-lg" />
                         <div>
                             <p className="text-sm font-bold text-tet-gold">Phòng {roomCode}</p>
                             <p className="text-[10px] text-tet-cream/40">
                                 {isPlaying
                                     ? isPaused
-                                        ? "⏸️ Tạm dừng"
-                                        : "🎮 Đang chơi"
-                                    : "⏳ Chờ bắt đầu"}
+                                        ? "Tạm dừng"
+                                        : "Đang chơi"
+                                    : "Chờ bắt đầu"}
                             </p>
                         </div>
                     </div>
@@ -277,7 +277,7 @@ export default function PlayerScreen() {
                 <div className="card p-3">
                     <div className="flex items-center justify-between mb-3">
                         <h3 className="text-sm font-bold text-tet-gold flex items-center gap-1.5">
-                            <span>🎫</span> Vé của bạn
+                            Vé của bạn
                         </h3>
                         <span className="text-[10px] text-tet-cream/40 bg-tet-cream/5 px-2 py-0.5 rounded-full">
                             Chạm số để đánh dấu
@@ -310,10 +310,10 @@ export default function PlayerScreen() {
                 >
                     <span className="relative z-10">
                         {isSubmittingKinh
-                            ? "⏳ Đang dò vé..."
+                            ? "Đang dò vé..."
                             : result === "win"
-                                ? "🏆 ĐÃ THẮNG!"
-                                : "🔥 KINH NGAY! 🔥"}
+                                ? "ĐÃ THẮNG!"
+                                : "KINH NGAY!"}
                     </span>
                     {hasCompleteRow && isPlaying && !isSubmittingKinh && (
                         <span className="absolute inset-0 bg-tet-cream/10 animate-pulse rounded-2xl" />
@@ -326,7 +326,7 @@ export default function PlayerScreen() {
                         <img src="/images/meme/mewnhanlixi.png" alt="Mèo nhận lì xì" className="w-32 h-32 mx-auto rounded-2xl shadow-lg object-cover" />
                         <h2 className="text-3xl font-black text-tet-gold">KINH RỒI!</h2>
                         <p className="text-tet-cream/80">{resultMessage}</p>
-                        <p className="text-tet-gold/60 text-sm">Bạn là người chiến thắng! 🎆</p>
+                        <p className="text-tet-gold/60 text-sm">Bạn là người chiến thắng!</p>
                     </div>
                 )}
 
@@ -358,7 +358,7 @@ export default function PlayerScreen() {
                 {falseAlarmAlert && (
                     <div className="card bg-red-900/20 border-red-500/20 text-center py-3 animate-shake">
                         <p className="text-red-400 font-bold">
-                            🚨 {falseAlarmAlert} kinh hụt rồi! 😂
+                            {falseAlarmAlert} kinh hụt rồi!
                         </p>
                     </div>
                 )}
@@ -367,7 +367,7 @@ export default function PlayerScreen() {
                 {calledNumbers.length > 0 && (
                     <details className="card">
                         <summary className="text-sm font-bold text-tet-gold cursor-pointer flex items-center gap-2">
-                            <span>📋</span> Số đã gọi ({calledNumbers.length})
+                            Số đã gọi ({calledNumbers.length})
                         </summary>
                         <div className="mt-3 flex flex-wrap gap-1.5">
                             {calledNumbers.map((n) => (

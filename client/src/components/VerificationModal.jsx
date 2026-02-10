@@ -58,7 +58,7 @@ const VerificationModal = memo(function VerificationModal({ data, isMe }) {
                 <div className="text-center space-y-2">
                     <div className="text-3xl">
                         {isWaiting ? (
-                            <span>🔍</span>
+                            <span className="text-tet-gold text-4xl font-black">?</span>
                         ) : isValid ? (
                             <img src="/images/meme/mewnhanlixi.png" alt="Thắng" className="w-24 h-24 mx-auto rounded-2xl shadow-lg object-cover" />
                         ) : (
@@ -149,10 +149,10 @@ const VerificationModal = memo(function VerificationModal({ data, isMe }) {
                 {result && isValid && (
                     <div className="text-center space-y-2">
                         <p className="text-green-600 text-lg font-bold">
-                            🎉 {isMe ? "Bạn" : playerName} đã chiến thắng!
+                            {isMe ? "Bạn" : playerName} đã chiến thắng!
                         </p>
                         <p className="text-tet-cream/50 text-xs">
-                            Chúc mừng năm mới! 🧧
+                            Chúc mừng năm mới!
                         </p>
                     </div>
                 )}

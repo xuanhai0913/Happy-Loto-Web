@@ -112,12 +112,12 @@ export default function Home() {
         <div className="min-h-dvh flex flex-col items-center justify-center p-4 relative overflow-hidden">
             {/* Background decorations */}
             <div className="absolute inset-0 pointer-events-none">
-                <div className="absolute top-10 left-10 text-6xl opacity-20 animate-bounce" style={{ animationDuration: '3s' }}>🏮</div>
-                <div className="absolute top-20 right-16 text-5xl opacity-20 animate-bounce" style={{ animationDuration: '4s', animationDelay: '1s' }}>🧧</div>
-                <div className="absolute bottom-20 left-20 text-5xl opacity-20 animate-bounce" style={{ animationDuration: '3.5s', animationDelay: '0.5s' }}>🎋</div>
-                <div className="absolute bottom-32 right-10 text-6xl opacity-20 animate-bounce" style={{ animationDuration: '4.5s', animationDelay: '2s' }}>🎆</div>
-                <div className="absolute top-1/3 left-1/4 text-4xl opacity-10 animate-pulse">✨</div>
-                <div className="absolute top-1/2 right-1/4 text-4xl opacity-10 animate-pulse" style={{ animationDelay: '1s' }}>🌸</div>
+                <div className="absolute top-10 left-10 w-16 h-16 rounded-full bg-tet-gold/10 animate-bounce" style={{ animationDuration: '3s' }} />
+                <div className="absolute top-20 right-16 w-12 h-12 rounded-full bg-tet-red/10 animate-bounce" style={{ animationDuration: '4s', animationDelay: '1s' }} />
+                <div className="absolute bottom-20 left-20 w-14 h-14 rounded-full bg-tet-gold/10 animate-bounce" style={{ animationDuration: '3.5s', animationDelay: '0.5s' }} />
+                <div className="absolute bottom-32 right-10 w-16 h-16 rounded-full bg-tet-red/10 animate-bounce" style={{ animationDuration: '4.5s', animationDelay: '2s' }} />
+                <div className="absolute top-1/3 left-1/4 w-8 h-8 rounded-full bg-tet-gold/5 animate-pulse" />
+                <div className="absolute top-1/2 right-1/4 w-10 h-10 rounded-full bg-pink-500/5 animate-pulse" style={{ animationDelay: '1s' }} />
             </div>
 
             {/* Main content */}
@@ -129,7 +129,7 @@ export default function Home() {
                         HAPPY LOTO
                     </h1>
                     <p className="text-tet-gold/60 text-sm font-medium tracking-widest uppercase">
-                        🎊 Xuân Bính Ngọ • Lô Tô Online 🎊
+                        Xuân Bính Ngọ • Lô Tô Online
                     </p>
                     <div className="flex items-center justify-center gap-2 mt-2">
                         <span className="h-px w-12 bg-gradient-to-r from-transparent to-tet-gold/40"></span>
@@ -141,7 +141,7 @@ export default function Home() {
                 {/* Create Room */}
                 <div className="card space-y-4">
                     <h2 className="text-lg font-bold text-tet-gold flex items-center gap-2">
-                        <span>🏠</span> Tạo Phòng Mới
+                        Tạo Phòng Mới
                     </h2>
                     <p className="text-tet-cream/50 text-sm">
                         Bạn sẽ là chủ xị, quay số và điều khiển ván chơi.
@@ -151,7 +151,7 @@ export default function Home() {
                         disabled={loading}
                         className="btn-primary w-full text-lg disabled:opacity-50"
                     >
-                        {loading ? "⏳ Đang tạo..." : "🎲 TẠO PHÒNG"}
+                        {loading ? "Đang tạo..." : "TẠO PHÒNG"}
                     </button>
                 </div>
 
@@ -165,7 +165,7 @@ export default function Home() {
                 {/* Join Room */}
                 <div className="card space-y-4">
                     <h2 className="text-lg font-bold text-tet-gold flex items-center gap-2">
-                        <span>🎟️</span> Vào Phòng
+                        Vào Phòng
                     </h2>
 
                     {/* Player name */}
@@ -208,19 +208,19 @@ export default function Home() {
                     onClick={() => navigate("/leaderboard")}
                     className="w-full bg-tet-card hover:bg-tet-gold/10 border border-tet-gold/20 text-tet-gold font-bold py-3 px-6 rounded-xl transition-all cursor-pointer flex items-center justify-center gap-2"
                 >
-                    🏆 Bảng Xếp Hạng
+                    Bảng Xếp Hạng
                 </button>
 
                 {/* Error */}
                 {error && (
                     <div className="bg-red-100 border border-red-300 rounded-xl p-3 text-center text-red-600 text-sm animate-shake">
-                        ⚠️ {error}
+                        {error}
                     </div>
                 )}
 
                 <div className="text-center text-xs pt-4 space-y-1">
                     <p className="text-tet-cream/40">
-                        Made with ❤️ for Tết 2026 • Happy Loto v1.0
+                        Made with ❤ for Tết 2026 • Happy Loto v1.0
                     </p>
                     <p className="text-tet-cream/30">
                         © 2026{" "}

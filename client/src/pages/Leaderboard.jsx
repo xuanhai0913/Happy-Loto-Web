@@ -46,7 +46,9 @@ export default function Leaderboard() {
         return (
             <div className="min-h-dvh flex items-center justify-center">
                 <div className="text-center space-y-3">
-                    <div className="text-5xl animate-bounce">🏆</div>
+                    <div className="text-5xl animate-bounce">
+                        <img src="/images/loto-logo.png" alt="Loading" className="w-14 h-14 mx-auto" />
+                    </div>
                     <p className="text-tet-cream/60">Đang tải...</p>
                 </div>
             </div>
@@ -64,7 +66,7 @@ export default function Leaderboard() {
                     >
                         ← Trang chủ
                     </button>
-                    <h1 className="text-lg font-bold text-tet-gold">🏆 Bảng Xếp Hạng</h1>
+                    <h1 className="text-lg font-bold text-tet-gold">Bảng Xếp Hạng</h1>
                     <div className="w-16" />
                 </div>
             </header>
@@ -97,20 +99,20 @@ export default function Leaderboard() {
                     <button
                         onClick={() => setActiveTab("leaderboard")}
                         className={`flex-1 py-2.5 rounded-xl font-bold text-sm transition-all cursor-pointer ${activeTab === "leaderboard"
-                                ? "bg-tet-gold text-tet-red-dark shadow-lg"
-                                : "bg-tet-card text-tet-cream/60 hover:text-tet-cream/80"
+                            ? "bg-tet-gold text-tet-red-dark shadow-lg"
+                            : "bg-tet-card text-tet-cream/60 hover:text-tet-cream/80"
                             }`}
                     >
-                        🏆 Xếp hạng
+                        Xếp hạng
                     </button>
                     <button
                         onClick={() => setActiveTab("history")}
                         className={`flex-1 py-2.5 rounded-xl font-bold text-sm transition-all cursor-pointer ${activeTab === "history"
-                                ? "bg-tet-gold text-tet-red-dark shadow-lg"
-                                : "bg-tet-card text-tet-cream/60 hover:text-tet-cream/80"
+                            ? "bg-tet-gold text-tet-red-dark shadow-lg"
+                            : "bg-tet-card text-tet-cream/60 hover:text-tet-cream/80"
                             }`}
                     >
-                        📜 Lịch sử
+                        Lịch sử
                     </button>
                 </div>
 
@@ -119,7 +121,7 @@ export default function Leaderboard() {
                     <div className="card space-y-1 overflow-hidden">
                         {leaderboard.length === 0 ? (
                             <div className="text-center py-8 space-y-2">
-                                <p className="text-4xl">🎮</p>
+                                <p className="text-tet-cream/50 text-lg font-bold">—</p>
                                 <p className="text-tet-cream/50">Chưa có dữ liệu</p>
                                 <p className="text-tet-cream/30 text-xs">Chơi vài ván để thấy bảng xếp hạng!</p>
                             </div>
@@ -140,10 +142,10 @@ export default function Leaderboard() {
                                     <div
                                         key={player.persistent_id}
                                         className={`grid grid-cols-12 gap-1 items-center py-2.5 px-1 rounded-lg text-sm ${index < 3
-                                                ? "bg-tet-gold/10 border border-tet-gold/20"
-                                                : index % 2 === 0
-                                                    ? "bg-tet-cream/5"
-                                                    : ""
+                                            ? "bg-tet-gold/10 border border-tet-gold/20"
+                                            : index % 2 === 0
+                                                ? "bg-tet-cream/5"
+                                                : ""
                                             }`}
                                     >
                                         <div className="col-span-1 font-bold text-center">
@@ -163,10 +165,10 @@ export default function Leaderboard() {
                                         </div>
                                         <div className="col-span-2 text-center">
                                             <span className={`text-xs font-bold px-1.5 py-0.5 rounded-full ${player.win_rate >= 50
-                                                    ? "bg-green-500/20 text-green-400"
-                                                    : player.win_rate >= 25
-                                                        ? "bg-yellow-500/20 text-yellow-400"
-                                                        : "bg-tet-cream/10 text-tet-cream/50"
+                                                ? "bg-green-500/20 text-green-400"
+                                                : player.win_rate >= 25
+                                                    ? "bg-yellow-500/20 text-yellow-400"
+                                                    : "bg-tet-cream/10 text-tet-cream/50"
                                                 }`}>
                                                 {player.win_rate}%
                                             </span>
@@ -183,7 +185,7 @@ export default function Leaderboard() {
                     <div className="space-y-2">
                         {history.length === 0 ? (
                             <div className="card text-center py-8 space-y-2">
-                                <p className="text-4xl">📜</p>
+                                <p className="text-tet-cream/50 text-lg font-bold">—</p>
                                 <p className="text-tet-cream/50">Chưa có lịch sử</p>
                             </div>
                         ) : (
@@ -191,8 +193,8 @@ export default function Leaderboard() {
                                 <div key={game.id} className="card py-3 space-y-1">
                                     <div className="flex items-center justify-between">
                                         <div className="flex items-center gap-2">
-                                            <span className="text-lg">
-                                                {game.winner_name ? "🏆" : "🎮"}
+                                            <span className={`text-xs font-bold px-1.5 py-0.5 rounded-full ${game.winner_name ? "bg-green-500/20 text-green-400" : "bg-tet-cream/10 text-tet-cream/40"}`}>
+                                                {game.winner_name ? "THẮNG" : "HÒA"}
                                             </span>
                                             <div>
                                                 <p className="font-bold text-sm text-tet-cream/80">
@@ -209,7 +211,7 @@ export default function Leaderboard() {
                                     </div>
                                     {game.winner_name && (
                                         <div className="flex items-center gap-2 bg-tet-gold/10 rounded-lg px-3 py-1.5 mt-1">
-                                            <span className="text-sm">👑</span>
+                                            <span className="text-sm font-black text-tet-gold">★</span>
                                             <span className="text-sm font-bold text-tet-gold">
                                                 {game.winner_name}
                                             </span>
