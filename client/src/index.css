@@ -4,16 +4,16 @@
 @theme {
   --font-sans: 'Be Vietnam Pro', system-ui, sans-serif;
 
-  --color-tet-red: #B91C1C;
-  --color-tet-red-dark: #7F1D1D;
-  --color-tet-red-light: #DC2626;
+  --color-tet-red: #C62828;
+  --color-tet-red-dark: #8E0000;
+  --color-tet-red-light: #EF5350;
   --color-tet-gold: #F59E0B;
   --color-tet-gold-light: #FCD34D;
   --color-tet-gold-dark: #D97706;
-  --color-tet-cream: #FEF3C7;
-  --color-tet-bg: #1A0A0A;
-  --color-tet-card: #2D1010;
-  --color-tet-card-light: #3D1515;
+  --color-tet-cream: #4A2C2A;
+  --color-tet-bg: #FFF5E1;
+  --color-tet-card: #FFFFFF;
+  --color-tet-card-light: #FFF8ED;
 }
 
 @layer base {
@@ -25,7 +25,7 @@
 
   body {
     font-family: 'Be Vietnam Pro', system-ui, sans-serif;
-    background: var(--color-tet-bg);
+    background: linear-gradient(135deg, #FFF5E1 0%, #FFE8CC 50%, #FFDDB7 100%);
     color: var(--color-tet-cream);
     min-height: 100dvh;
     overflow-x: hidden;
@@ -34,7 +34,7 @@
 
 @layer components {
   .btn-primary {
-    @apply bg-gradient-to-r from-tet-gold to-tet-gold-dark text-tet-red-dark font-bold py-3 px-6 rounded-xl shadow-lg transition-all duration-300 hover:shadow-tet-gold/30 hover:shadow-xl hover:scale-105 active:scale-95 cursor-pointer;
+    @apply bg-gradient-to-r from-tet-gold to-tet-gold-dark text-white font-bold py-3 px-6 rounded-xl shadow-lg transition-all duration-300 hover:shadow-tet-gold/30 hover:shadow-xl hover:scale-105 active:scale-95 cursor-pointer;
   }
 
   .btn-danger {
@@ -42,11 +42,11 @@
   }
 
   .card {
-    @apply bg-tet-card border border-tet-red/20 rounded-2xl p-4 shadow-lg shadow-black/20 backdrop-blur-sm;
+    @apply bg-white border border-tet-red/10 rounded-2xl p-4 shadow-lg shadow-red-900/5;
   }
 
   .glass {
-    @apply bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl;
+    @apply bg-white/60 backdrop-blur-md border border-white/80 rounded-2xl;
   }
 
   .number-ball {
@@ -54,11 +54,11 @@
   }
 
   .number-ball-called {
-    @apply bg-gradient-to-br from-tet-gold to-tet-gold-dark text-tet-red-dark shadow-tet-gold/40 scale-100;
+    @apply bg-gradient-to-br from-tet-gold to-tet-gold-dark text-white shadow-tet-gold/40 scale-100;
   }
 
   .number-ball-idle {
-    @apply bg-tet-card-light text-white/30 border border-white/5;
+    @apply bg-tet-card-light text-tet-cream/30 border border-tet-red/10;
   }
 
   .ticket-cell {
@@ -70,15 +70,15 @@
   }
 
   .ticket-cell-normal {
-    @apply bg-tet-card-light border border-white/10 text-white hover:border-tet-gold/50 active:scale-90;
+    @apply bg-tet-card-light border border-tet-red/10 text-tet-cream hover:border-tet-gold/50 active:scale-90;
   }
 
   .ticket-cell-selected {
-    @apply bg-gradient-to-br from-tet-gold to-tet-gold-dark text-tet-red-dark border-2 border-tet-gold shadow-md shadow-tet-gold/30 scale-105;
+    @apply bg-gradient-to-br from-tet-gold to-tet-gold-dark text-white border-2 border-tet-gold shadow-md shadow-tet-gold/30 scale-105;
   }
 
   .btn-kinh {
-    @apply relative overflow-hidden bg-gradient-to-r from-tet-red via-red-500 to-tet-red-light text-white font-black text-2xl py-5 px-8 rounded-2xl shadow-2xl shadow-red-500/40 transition-all duration-300 hover:scale-105 hover:shadow-red-500/60 active:scale-95 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100;
+    @apply relative overflow-hidden bg-gradient-to-r from-tet-red via-red-600 to-tet-red-light text-white font-black text-2xl py-5 px-8 rounded-2xl shadow-2xl shadow-red-500/30 transition-all duration-300 hover:scale-105 hover:shadow-red-500/50 active:scale-95 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100;
   }
 
   .floating-emoji {

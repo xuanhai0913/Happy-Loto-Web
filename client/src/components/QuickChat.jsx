@@ -79,20 +79,20 @@ export default function QuickChat({ roomCode }) {
                                 <button
                                     onClick={() => setActiveTab("emoji")}
                                     className={`text-xs px-3 py-1 rounded-full transition-all cursor-pointer
-                    ${activeTab === "emoji" ? "bg-tet-gold/20 text-tet-gold" : "text-white/40 hover:text-white/60"}`}
+                    ${activeTab === "emoji" ? "bg-tet-gold/20 text-tet-gold" : "text-tet-cream/50 hover:text-tet-cream/70"}`}
                                 >
                                     😂 Emoji
                                 </button>
                                 <button
                                     onClick={() => setActiveTab("text")}
                                     className={`text-xs px-3 py-1 rounded-full transition-all cursor-pointer
-                    ${activeTab === "text" ? "bg-tet-gold/20 text-tet-gold" : "text-white/40 hover:text-white/60"}`}
+                    ${activeTab === "text" ? "bg-tet-gold/20 text-tet-gold" : "text-tet-cream/50 hover:text-tet-cream/70"}`}
                                 >
                                     💬 Chat nhanh
                                 </button>
                                 <button
                                     onClick={() => setIsOpen(false)}
-                                    className="ml-auto text-white/40 hover:text-white/60 text-sm px-2 cursor-pointer"
+                                    className="ml-auto text-tet-cream/50 hover:text-tet-cream/70 text-sm px-2 cursor-pointer"
                                 >
                                     ✕
                                 </button>
@@ -105,7 +105,7 @@ export default function QuickChat({ roomCode }) {
                                         <button
                                             key={emoji}
                                             onClick={() => sendEmoji(emoji)}
-                                            className="text-2xl p-2 hover:bg-white/10 rounded-xl transition-all
+                                            className="text-2xl p-2 hover:bg-tet-cream/10 rounded-xl transition-all
                                  active:scale-75 cursor-pointer shrink-0"
                                         >
                                             {emoji}
@@ -118,8 +118,8 @@ export default function QuickChat({ roomCode }) {
                                         <button
                                             key={text}
                                             onClick={() => sendText(text)}
-                                            className="text-xs px-3 py-1.5 bg-white/10 hover:bg-tet-gold/20 
-                                 text-white/70 hover:text-tet-gold rounded-full transition-all
+                                            className="text-xs px-3 py-1.5 bg-tet-cream/10 hover:bg-tet-gold/20 
+                                 text-tet-cream/80 hover:text-tet-gold rounded-full transition-all
                                  active:scale-90 cursor-pointer shrink-0 whitespace-nowrap"
                                         >
                                             {text}
@@ -131,7 +131,7 @@ export default function QuickChat({ roomCode }) {
                     ) : (
                         <button
                             onClick={() => setIsOpen(true)}
-                            className="w-full text-center text-white/40 hover:text-white/60 text-sm py-1
+                            className="w-full text-center text-tet-cream/50 hover:text-tet-cream/70 text-sm py-1
                          transition-all cursor-pointer flex items-center justify-center gap-2"
                         >
                             <span>💬</span> Gửi biểu cảm / Chat nhanh

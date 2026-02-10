@@ -133,22 +133,22 @@ export default function HostScreen() {
                         <span className="text-2xl">🎰</span>
                         <div>
                             <h1 className="text-lg font-bold text-tet-gold">HAPPY LOTO</h1>
-                            <p className="text-xs text-white/40">Chủ phòng</p>
+                            <p className="text-xs text-tet-cream/50">Chủ phòng</p>
                         </div>
                     </div>
                     <div className="flex items-center gap-4">
                         <BackgroundMusic />
                         <div className="text-center">
-                            <p className="text-xs text-white/40">Mã phòng</p>
+                            <p className="text-xs text-tet-cream/50">Mã phòng</p>
                             <p className="text-2xl font-black text-tet-gold tracking-widest">{roomCode}</p>
                         </div>
                         <button
                             onClick={() => setShowPlayers(!showPlayers)}
-                            className="text-center cursor-pointer hover:bg-white/5 px-2 py-1 rounded-lg transition-all"
+                            className="text-center cursor-pointer hover:bg-tet-cream/5 px-2 py-1 rounded-lg transition-all"
                         >
-                            <p className="text-xs text-white/40">Người chơi</p>
+                            <p className="text-xs text-tet-cream/50">Người chơi</p>
                             <p className="text-2xl font-black text-tet-gold">
-                                {onlineCount}<span className="text-sm text-white/30">/{playerCount}</span>
+                                {onlineCount}<span className="text-sm text-tet-cream/40">/{playerCount}</span>
                             </p>
                         </button>
                     </div>
@@ -163,20 +163,20 @@ export default function HostScreen() {
                             <span>👥</span> Danh sách người chơi ({onlineCount} online / {playerCount} tổng)
                         </h3>
                         {players.length === 0 ? (
-                            <p className="text-white/30 text-sm">Chưa có ai vào phòng</p>
+                            <p className="text-tet-cream/40 text-sm">Chưa có ai vào phòng</p>
                         ) : (
                             <div className="space-y-1">
                                 {players.map((p) => (
                                     <div
                                         key={p.id}
-                                        className="flex items-center gap-2 text-sm py-1.5 px-2 rounded-lg bg-white/5"
+                                        className="flex items-center gap-2 text-sm py-1.5 px-2 rounded-lg bg-tet-cream/5"
                                     >
                                         <span className={`w-2 h-2 rounded-full ${p.online ? "bg-green-400" : "bg-gray-500"}`} />
-                                        <span className={p.online ? "text-white/80" : "text-white/30"}>
+                                        <span className={p.online ? "text-white/80" : "text-tet-cream/40"}>
                                             {p.name}
                                         </span>
                                         {!p.online && (
-                                            <span className="text-[10px] text-white/20 ml-auto">mất kết nối</span>
+                                            <span className="text-[10px] text-tet-cream/25 ml-auto">mất kết nối</span>
                                         )}
                                     </div>
                                 ))}
@@ -191,7 +191,7 @@ export default function HostScreen() {
                         <div className="absolute inset-0 bg-gradient-to-br from-tet-gold/10 via-transparent to-tet-red/10 pointer-events-none" />
                     )}
 
-                    <p className="text-sm text-white/40 mb-2 relative z-10">
+                    <p className="text-sm text-tet-cream/50 mb-2 relative z-10">
                         {isPlaying
                             ? isPaused
                                 ? "⏸️ Tạm dừng"
@@ -211,7 +211,7 @@ export default function HostScreen() {
 
                     {calledNumbers.length > 0 && (
                         <div className="mt-4 flex items-center justify-center gap-2 flex-wrap relative z-10">
-                            <span className="text-white/30 text-xs">Gần đây:</span>
+                            <span className="text-tet-cream/40 text-xs">Gần đây:</span>
                             {calledNumbers
                                 .slice(-5)
                                 .reverse()
@@ -221,7 +221,7 @@ export default function HostScreen() {
                                         className={`inline-flex items-center justify-center w-8 h-8 rounded-full
                     text-sm font-bold ${i === 0
                                                 ? "bg-tet-gold/20 text-tet-gold"
-                                                : "bg-white/5 text-white/40"
+                                                : "bg-tet-cream/5 text-tet-cream/50"
                                             }`}
                                     >
                                         {n}
@@ -261,7 +261,7 @@ export default function HostScreen() {
                             </button>
                             <button
                                 onClick={handleReset}
-                                className="bg-white/10 hover:bg-white/20 text-white font-bold py-3 px-6 rounded-xl transition-all cursor-pointer"
+                                className="bg-tet-cream/10 hover:bg-tet-cream/15 text-white font-bold py-3 px-6 rounded-xl transition-all cursor-pointer"
                             >
                                 🔄 Ván mới
                             </button>
@@ -275,7 +275,7 @@ export default function HostScreen() {
                             </button>
                             <button
                                 onClick={handleReset}
-                                className="bg-white/10 hover:bg-white/20 text-white font-bold py-3 px-6 rounded-xl transition-all cursor-pointer"
+                                className="bg-tet-cream/10 hover:bg-tet-cream/15 text-white font-bold py-3 px-6 rounded-xl transition-all cursor-pointer"
                             >
                                 🔄 Ván mới
                             </button>
@@ -290,10 +290,10 @@ export default function HostScreen() {
                     </div>
                     <div className="flex-1 min-w-0">
                         <p className="text-sm font-bold text-tet-gold mb-1">📱 Quét để vào phòng</p>
-                        <p className="text-xs text-white/40 break-all">{joinLink}</p>
+                        <p className="text-xs text-tet-cream/50 break-all">{joinLink}</p>
                         <button
                             onClick={() => navigator.clipboard?.writeText(joinLink)}
-                            className="mt-2 text-xs bg-white/10 hover:bg-white/20 px-3 py-1 rounded-lg transition-all cursor-pointer"
+                            className="mt-2 text-xs bg-tet-cream/10 hover:bg-tet-cream/15 px-3 py-1 rounded-lg transition-all cursor-pointer"
                         >
                             📋 Copy link
                         </button>
@@ -308,10 +308,10 @@ export default function HostScreen() {
                     <div className="card bg-gradient-to-r from-tet-gold/20 to-tet-red/20 text-center py-8 space-y-3 border-tet-gold/40">
                         <div className="text-5xl">🏆</div>
                         <h2 className="text-2xl font-black text-tet-gold">KINH RỒI!</h2>
-                        <p className="text-white/70">
+                        <p className="text-tet-cream/80">
                             🎉 {winner.playerName || "Người chơi"} đã thắng!
                         </p>
-                        <p className="text-xs text-white/40">
+                        <p className="text-xs text-tet-cream/50">
                             Số thắng: [{winner.rowNumbers.join(", ")}]
                         </p>
                         <button onClick={handleReset} className="btn-primary mt-4">

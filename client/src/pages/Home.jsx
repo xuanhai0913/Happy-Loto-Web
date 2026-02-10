@@ -142,7 +142,7 @@ export default function Home() {
                     <h2 className="text-lg font-bold text-tet-gold flex items-center gap-2">
                         <span>🏠</span> Tạo Phòng Mới
                     </h2>
-                    <p className="text-white/50 text-sm">
+                    <p className="text-tet-cream/50 text-sm">
                         Bạn sẽ là chủ xị, quay số và điều khiển ván chơi.
                     </p>
                     <button
@@ -156,9 +156,9 @@ export default function Home() {
 
                 {/* Divider */}
                 <div className="flex items-center gap-4">
-                    <span className="flex-1 h-px bg-white/10"></span>
-                    <span className="text-white/30 text-sm font-medium">HOẶC</span>
-                    <span className="flex-1 h-px bg-white/10"></span>
+                    <span className="flex-1 h-px bg-tet-cream/20"></span>
+                    <span className="text-tet-cream/40 text-sm font-medium">HOẶC</span>
+                    <span className="flex-1 h-px bg-tet-cream/20"></span>
                 </div>
 
                 {/* Join Room */}
@@ -174,8 +174,8 @@ export default function Home() {
                         onChange={(e) => setPlayerName(e.target.value)}
                         placeholder="Tên của bạn (tùy chọn)"
                         maxLength={20}
-                        className="w-full bg-tet-bg border border-white/10 rounded-xl px-4 py-2.5
-                       text-sm text-white placeholder:text-white/20
+                        className="w-full bg-tet-card-light border border-tet-red/10 rounded-xl px-4 py-2.5
+                       text-sm text-tet-cream placeholder:text-tet-cream/30
                        focus:outline-none focus:border-tet-gold/40 transition-colors"
                     />
 
@@ -187,9 +187,9 @@ export default function Home() {
                             onChange={handleCodeInput}
                             placeholder="Mã phòng"
                             maxLength={4}
-                            className="flex-1 bg-tet-bg border-2 border-tet-gold/30 rounded-xl px-4 py-3
+                            className="flex-1 bg-tet-card-light border-2 border-tet-gold/30 rounded-xl px-4 py-3
                          text-center text-2xl font-bold text-tet-gold tracking-[0.5em]
-                         placeholder:text-white/20 placeholder:text-base placeholder:tracking-normal
+                         placeholder:text-tet-cream/30 placeholder:text-base placeholder:tracking-normal
                          focus:outline-none focus:border-tet-gold transition-colors"
                         />
                         <button
@@ -204,12 +204,12 @@ export default function Home() {
 
                 {/* Error */}
                 {error && (
-                    <div className="bg-red-900/50 border border-red-500/50 rounded-xl p-3 text-center text-red-300 text-sm animate-shake">
+                    <div className="bg-red-100 border border-red-300 rounded-xl p-3 text-center text-red-600 text-sm animate-shake">
                         ⚠️ {error}
                     </div>
                 )}
 
-                <p className="text-center text-white/20 text-xs pt-4">
+                <p className="text-center text-tet-cream/30 text-xs pt-4">
                     Made with ❤️ for Tết 2026 • Happy Loto v1.0
                 </p>
             </div>

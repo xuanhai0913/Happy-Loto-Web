@@ -22,7 +22,7 @@ const LotoTicket = memo(function LotoTicket({ ticket, selectedNumbers, calledNum
                                 if (num === null) {
                                     return (
                                         <div key={`${rowIdx}-${colIdx}`} className="ticket-cell ticket-cell-empty">
-                                            <span className="text-white/5 text-xs">·</span>
+                                            <span className="text-tet-cream/10 text-xs">·</span>
                                         </div>
                                     );
                                 }
@@ -52,7 +52,7 @@ const LotoTicket = memo(function LotoTicket({ ticket, selectedNumbers, calledNum
                                     ✨ ĐỦ HÀNG!
                                 </span>
                             )}
-                            <span className="text-[9px] text-white/20">
+                            <span className="text-[9px] text-tet-cream/25">
                                 {selectedInRow.length}/5
                             </span>
                         </div>

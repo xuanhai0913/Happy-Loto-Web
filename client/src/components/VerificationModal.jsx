@@ -20,7 +20,7 @@ const VerificationModal = memo(function VerificationModal({ data, isMe }) {
     const isValid = result?.valid;
 
     return (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
             <div
                 className={`w-full max-w-md rounded-3xl p-5 space-y-4 border shadow-2xl transition-all duration-500
           ${isWaiting
@@ -49,14 +49,14 @@ const VerificationModal = memo(function VerificationModal({ data, isMe }) {
                                 ? "KINH HỢP LỆ!"
                                 : "KINH HỤT!"}
                     </h2>
-                    <p className="text-white/60 text-sm">
+                    <p className="text-tet-cream/70 text-sm">
                         {isMe ? "Vé của bạn" : `Vé của ${playerName}`} đang được dò
                     </p>
                 </div>
 
                 {/* Ticket Display */}
                 {ticket && (
-                    <div className="bg-black/30 rounded-2xl p-3 space-y-1.5">
+                    <div className="bg-tet-cream/10 rounded-2xl p-3 space-y-1.5">
                         {ticket.map((row, rIdx) => (
                             <div key={rIdx} className="relative">
                                 {/* Highlight the claimed row */}
@@ -78,7 +78,7 @@ const VerificationModal = memo(function VerificationModal({ data, isMe }) {
                                             return (
                                                 <div
                                                     key={`${rIdx}-${cIdx}`}
-                                                    className="h-7 flex items-center justify-center text-white/5 text-[10px] rounded"
+                                                    className="h-7 flex items-center justify-center text-tet-cream/10 text-[10px] rounded"
                                                 >
                                                     ·
                                                 </div>
@@ -105,7 +105,7 @@ const VerificationModal = memo(function VerificationModal({ data, isMe }) {
                                             // Called but not in claimed row
                                             cellClass += "bg-tet-gold/20 text-tet-gold";
                                         } else {
-                                            cellClass += "bg-white/5 text-white/40";
+                                            cellClass += "bg-tet-cream/5 text-tet-cream/50";
                                         }
 
                                         return (
@@ -145,7 +145,7 @@ const VerificationModal = memo(function VerificationModal({ data, isMe }) {
                         <p className="text-green-300 text-lg font-bold">
                             🎉 {isMe ? "Bạn" : playerName} đã chiến thắng!
                         </p>
-                        <p className="text-white/40 text-xs">
+                        <p className="text-tet-cream/50 text-xs">
                             Chúc mừng năm mới! 🧧
                         </p>
                     </div>

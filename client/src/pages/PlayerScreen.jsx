@@ -228,7 +228,7 @@ export default function PlayerScreen() {
                         <span className="text-xl">🎟️</span>
                         <div>
                             <p className="text-sm font-bold text-tet-gold">Phòng {roomCode}</p>
-                            <p className="text-[10px] text-white/30">
+                            <p className="text-[10px] text-tet-cream/40">
                                 {isPlaying
                                     ? isPaused
                                         ? "⏸️ Tạm dừng"
@@ -240,7 +240,7 @@ export default function PlayerScreen() {
                     <div className="flex items-center gap-3">
                         <BackgroundMusic />
                         <div className="text-center">
-                            <p className="text-[10px] text-white/30">Đã đánh</p>
+                            <p className="text-[10px] text-tet-cream/40">Đã đánh</p>
                             <p className="text-lg font-black text-tet-gold">{totalSelected}</p>
                         </div>
                     </div>
@@ -253,7 +253,7 @@ export default function PlayerScreen() {
                     {currentNumber && (
                         <div className="absolute inset-0 bg-gradient-to-br from-tet-gold/5 to-tet-red/5 pointer-events-none" />
                     )}
-                    <p className="text-xs text-white/40 mb-2 relative z-10">Số vừa gọi</p>
+                    <p className="text-xs text-tet-cream/50 mb-2 relative z-10">Số vừa gọi</p>
                     <div
                         className={`relative z-10 inline-flex items-center justify-center w-20 h-20 rounded-full
             bg-gradient-to-br from-tet-gold to-tet-gold-dark text-tet-red-dark
@@ -263,7 +263,7 @@ export default function PlayerScreen() {
                     >
                         {currentNumber || "?"}
                     </div>
-                    <p className="text-xs text-white/30 mt-2 relative z-10">
+                    <p className="text-xs text-tet-cream/40 mt-2 relative z-10">
                         {calledNumbers.length > 0
                             ? `${calledNumbers.length} số đã gọi`
                             : "Chưa bắt đầu"}
@@ -276,7 +276,7 @@ export default function PlayerScreen() {
                         <h3 className="text-sm font-bold text-tet-gold flex items-center gap-1.5">
                             <span>🎫</span> Vé của bạn
                         </h3>
-                        <span className="text-[10px] text-white/30 bg-white/5 px-2 py-0.5 rounded-full">
+                        <span className="text-[10px] text-tet-cream/40 bg-tet-cream/5 px-2 py-0.5 rounded-full">
                             Chạm số để đánh dấu
                         </span>
                     </div>
@@ -302,7 +302,7 @@ export default function PlayerScreen() {
                                 : "🔥 KINH NGAY! 🔥"}
                     </span>
                     {hasCompleteRow && isPlaying && !isSubmittingKinh && (
-                        <span className="absolute inset-0 bg-white/10 animate-pulse rounded-2xl" />
+                        <span className="absolute inset-0 bg-tet-cream/10 animate-pulse rounded-2xl" />
                     )}
                 </button>
 
@@ -311,7 +311,7 @@ export default function PlayerScreen() {
                     <div className="card bg-gradient-to-r from-tet-gold/20 to-yellow-500/20 border-tet-gold/40 text-center py-8 space-y-3">
                         <div className="text-6xl">🏆🎉🎊</div>
                         <h2 className="text-3xl font-black text-tet-gold">KINH RỒI!</h2>
-                        <p className="text-white/70">{resultMessage}</p>
+                        <p className="text-tet-cream/80">{resultMessage}</p>
                         <p className="text-tet-gold/60 text-sm">Bạn là người chiến thắng! 🎆</p>
                     </div>
                 )}
@@ -320,14 +320,14 @@ export default function PlayerScreen() {
                     <div className="card bg-red-900/40 border-red-500/40 text-center py-8 space-y-3 animate-shake">
                         <div className="text-6xl">🚨😂</div>
                         <h2 className="text-2xl font-black text-red-400">KINH HỤT!</h2>
-                        <p className="text-white/60">{resultMessage}</p>
-                        <div className="mt-4 p-3 bg-black/30 rounded-xl">
+                        <p className="text-tet-cream/70">{resultMessage}</p>
+                        <div className="mt-4 p-3 bg-tet-cream/10 rounded-xl">
                             <p className="text-4xl">🤡</p>
-                            <p className="text-xs text-white/40 mt-1">Nghe kỹ rồi hãy kinh nha!</p>
+                            <p className="text-xs text-tet-cream/50 mt-1">Nghe kỹ rồi hãy kinh nha!</p>
                         </div>
                         <button
                             onClick={() => { setResult(null); setResultMessage(""); }}
-                            className="mt-3 text-sm bg-white/10 hover:bg-white/20 px-4 py-2 rounded-lg transition-all cursor-pointer"
+                            className="mt-3 text-sm bg-tet-cream/10 hover:bg-tet-cream/15 px-4 py-2 rounded-lg transition-all cursor-pointer"
                         >
                             OK
                         </button>
@@ -340,7 +340,7 @@ export default function PlayerScreen() {
                         <h2 className="text-xl font-bold text-tet-gold">
                             {winnerAlert.playerName || "Ai đó"} đã KINH!
                         </h2>
-                        <p className="text-white/50 text-sm">Ván này đã kết thúc</p>
+                        <p className="text-tet-cream/100 text-sm">Ván này đã kết thúc</p>
                     </div>
                 )}
 
