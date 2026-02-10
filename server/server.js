@@ -367,6 +367,27 @@ io.on("connection", (socket) => {
         console.log(`🔄 Game reset in room ${roomCode}`);
     });
 
+    // --- REROLL TICKET (before game starts) ---
+    socket.on("reroll_ticket", ({ roomCode }) => {
+        const room = rooms.get(roomCode);
+        if (!room) return;
+
+        // Only allow reroll before game starts
+        if (room.isPlaying) return;
+
+        const pid = socket.persistentId;
+        const player = room.players.get(pid);
+        if (!player) return;
+
+        // Generate new ticket
+        player.ticket = generateTicket();
+        player.selectedNumbers = [];
+
+        // Send new ticket to player
+        io.to(socket.id).emit("game_reset", { ticket: player.ticket });
+        console.log(`🔄 Player ${pid} rerolled ticket in room ${roomCode}`);
+    });
+
     // --- CHECK WIN ("KINH") with PUBLIC VERIFICATION ---
     socket.on("check_win", ({ roomCode, rowNumbers, rowIndex, selectedNumbers: userSelected }, callback) => {
         const room = rooms.get(roomCode);
