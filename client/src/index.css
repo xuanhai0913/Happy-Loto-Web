@@ -1,0 +1,166 @@
+@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800;900&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Be Vietnam Pro', system-ui, sans-serif;
+
+  --color-tet-red: #B91C1C;
+  --color-tet-red-dark: #7F1D1D;
+  --color-tet-red-light: #DC2626;
+  --color-tet-gold: #F59E0B;
+  --color-tet-gold-light: #FCD34D;
+  --color-tet-gold-dark: #D97706;
+  --color-tet-cream: #FEF3C7;
+  --color-tet-bg: #1A0A0A;
+  --color-tet-card: #2D1010;
+  --color-tet-card-light: #3D1515;
+}
+
+@layer base {
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Be Vietnam Pro', system-ui, sans-serif;
+    background: var(--color-tet-bg);
+    color: var(--color-tet-cream);
+    min-height: 100dvh;
+    overflow-x: hidden;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-gradient-to-r from-tet-gold to-tet-gold-dark text-tet-red-dark font-bold py-3 px-6 rounded-xl shadow-lg transition-all duration-300 hover:shadow-tet-gold/30 hover:shadow-xl hover:scale-105 active:scale-95 cursor-pointer;
+  }
+
+  .btn-danger {
+    @apply bg-gradient-to-r from-tet-red to-tet-red-light text-white font-bold py-3 px-6 rounded-xl shadow-lg transition-all duration-300 hover:shadow-tet-red/30 hover:shadow-xl hover:scale-105 active:scale-95 cursor-pointer;
+  }
+
+  .card {
+    @apply bg-tet-card border border-tet-red/20 rounded-2xl p-4 shadow-lg shadow-black/20 backdrop-blur-sm;
+  }
+
+  .glass {
+    @apply bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl;
+  }
+
+  .number-ball {
+    @apply w-14 h-14 rounded-full flex items-center justify-center font-bold text-xl shadow-lg transition-all duration-300;
+  }
+
+  .number-ball-called {
+    @apply bg-gradient-to-br from-tet-gold to-tet-gold-dark text-tet-red-dark shadow-tet-gold/40 scale-100;
+  }
+
+  .number-ball-idle {
+    @apply bg-tet-card-light text-white/30 border border-white/5;
+  }
+
+  .ticket-cell {
+    @apply flex items-center justify-center font-bold text-lg rounded-lg min-h-[44px] transition-all duration-200 cursor-pointer select-none;
+  }
+
+  .ticket-cell-empty {
+    @apply bg-transparent cursor-default;
+  }
+
+  .ticket-cell-normal {
+    @apply bg-tet-card-light border border-white/10 text-white hover:border-tet-gold/50 active:scale-90;
+  }
+
+  .ticket-cell-selected {
+    @apply bg-gradient-to-br from-tet-gold to-tet-gold-dark text-tet-red-dark border-2 border-tet-gold shadow-md shadow-tet-gold/30 scale-105;
+  }
+
+  .btn-kinh {
+    @apply relative overflow-hidden bg-gradient-to-r from-tet-red via-red-500 to-tet-red-light text-white font-black text-2xl py-5 px-8 rounded-2xl shadow-2xl shadow-red-500/40 transition-all duration-300 hover:scale-105 hover:shadow-red-500/60 active:scale-95 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100;
+  }
+
+  .floating-emoji {
+    position: fixed;
+    font-size: 2rem;
+    animation: floatUp 3s ease-out forwards;
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  @keyframes floatUp {
+    0% {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    100% {
+      opacity: 0;
+      transform: translateY(-300px) scale(1.5);
+    }
+  }
+
+  @keyframes pulse-glow {
+
+    0%,
+    100% {
+      box-shadow: 0 0 20px rgba(245, 158, 11, 0.3);
+    }
+
+    50% {
+      box-shadow: 0 0 40px rgba(245, 158, 11, 0.6);
+    }
+  }
+
+  @keyframes number-reveal {
+    0% {
+      transform: scale(0) rotate(-180deg);
+      opacity: 0;
+    }
+
+    70% {
+      transform: scale(1.2) rotate(10deg);
+    }
+
+    100% {
+      transform: scale(1) rotate(0deg);
+      opacity: 1;
+    }
+  }
+
+  .animate-number-reveal {
+    animation: number-reveal 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  }
+
+  .animate-pulse-glow {
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+
+  @keyframes shake {
+
+    0%,
+    100% {
+      transform: translateX(0);
+    }
+
+    10%,
+    30%,
+    50%,
+    70%,
+    90% {
+      transform: translateX(-4px);
+    }
+
+    20%,
+    40%,
+    60%,
+    80% {
+      transform: translateX(4px);
+    }
+  }
+
+  .animate-shake {
+    animation: shake 0.6s ease-in-out;
+  }
+}
