@@ -1,118 +1,133 @@
 import { memo } from "react";
 
-// Traditional Vietnamese Loto colors - SUPER vibrant like real tickets
-const ROW_COLORS = [
-    "#FF5722", // Cam rực (Bright Orange)
-    "#4CAF50", // Xanh lá tươi (Bright Green)  
-    "#E91E63", // Hồng sốc (Hot Pink)
-    "#FFC107", // Vàng tươi (Bright Yellow)
-    "#2196F3", // Xanh dương (Bright Blue)
-    "#F44336", // Đỏ rực (Bright Red)
+// Single ticket colors - one per ticket
+const TICKET_COLORS = [
+    "#FFD700", // Vàng (Yellow)
+    "#FF5722", // Cam (Orange)
+    "#4CAF50", // Xanh lá (Green)
+    "#2196F3", // Xanh dương (Blue)
+    "#E91E63", // Hồng (Pink)
     "#9C27B0", // Tím (Purple)
     "#00BCD4", // Xanh ngọc (Cyan)
-    "#FF9800", // Cam vàng (Orange)
 ];
 
 const LotoTicket = memo(function LotoTicket({ ticket, selectedNumbers, calledNumbers, onToggle, playerName }) {
     if (!ticket) return null;
 
+    // Pick ONE random color for the entire ticket (consistent per render)
+    const ticketColor = TICKET_COLORS[Math.floor(Math.random() * TICKET_COLORS.length)];
+
     return (
-        <div className="traditional-loto-ticket">
-            {/* Decorative header */}
-            <div className="ticket-header-deco">
-                <div className="deco-dots">• • • • • • • • • • • • • •</div>
-                <div className="ticket-title">TÊM TEN</div>
-                <div className="deco-dots">• • • • • • • • • • • • • •</div>
+        <div className="single-color-ticket" style={{ borderColor: ticketColor }}>
+            {/* Header: Player name */}
+            <div className="ticket-header-section" style={{ background: ticketColor }}>
+                <div className="header-dots">• • • • • • • • • • • • • •</div>
+                <div className="player-name-display">
+                    {playerName || "Người chơi"}
+                </div>
+                <div className="header-dots">• • • • • • • • • • • • • •</div>
             </div>
 
-            {/* Player name banner */}
-            {playerName && (
-                <div className="ticket-player-banner">
-                    <span className="player-name-tag">{playerName}</span>
-                </div>
-            )}
-
-            {/* Ticket grid */}
-            <div className="ticket-grid-traditional">
-                {ticket.map((row, rowIdx) => {
-                    const bgColor = ROW_COLORS[rowIdx % ROW_COLORS.length];
-                    const rowNumbers = row.filter((n) => n !== null);
-                    const selectedInRow = rowNumbers.filter((n) => selectedNumbers.has(n));
-                    const isRowComplete = selectedInRow.length === 5;
-
-                    return (
-                        <div
-                            key={rowIdx}
-                            className={`ticket-row-trad ${isRowComplete ? "row-complete-glow" : ""}`}
-                            style={{ backgroundColor: bgColor }}
-                        >
-                            {row.map((num, colIdx) => {
-                                if (num === null) {
-                                    // Empty cell — slightly transparent
-                                    return (
-                                        <div
-                                            key={`${rowIdx}-${colIdx}`}
-                                            className="ticket-cell-trad cell-empty-trad"
-                                            style={{
-                                                backgroundColor: "rgba(255, 255, 255, 0.15)",
-                                                border: "2px solid rgba(255, 255, 255, 0.3)",
-                                            }}
-                                        />
-                                    );
-                                }
-
-                                const isSelected = selectedNumbers.has(num);
-                                const isCalled = calledNumbers.includes(num);
-
-                                return (
+            {/* Section 1: Rows 1-3 */}
+            <div className="ticket-section">
+                {ticket.slice(0, 3).map((row, rowIdx) => (
+                    <div key={rowIdx} className="ticket-row-single">
+                        {row.map((num, colIdx) => (
+                            <div key={`${rowIdx}-${colIdx}`} className="cell-wrapper">
+                                {num === null ? (
+                                    <div className="cell-empty-single" />
+                                ) : (
                                     <button
-                                        key={`${rowIdx}-${colIdx}`}
                                         onClick={() => onToggle(num)}
-                                        className={`ticket-cell-trad cell-number-trad ${isSelected ? "cell-selected-gold" : ""
-                                            } ${isCalled && !isSelected ? "cell-called-dim" : ""}`}
-                                        style={
-                                            isSelected
-                                                ? {
-                                                    backgroundColor: "#FFD700",
-                                                    color: "#8B0000",
-                                                    fontWeight: "900",
-                                                    border: "3px solid #DAA520",
-                                                    boxShadow: "0 0 12px rgba(255, 215, 0, 0.8)",
-                                                }
-                                                : {
-                                                    backgroundColor: "rgba(255, 255, 255, 0.95)",
-                                                    color: bgColor,
-                                                    fontWeight: "900",
-                                                    border: "2px solid rgba(255, 255, 255, 0.8)",
-                                                }
-                                        }
+                                        className={`cell-number-single ${selectedNumbers.has(num) ? "cell-selected-single" : ""
+                                            } ${calledNumbers.includes(num) && !selectedNumbers.has(num) ? "cell-called-single" : ""}`}
+                                        style={{
+                                            backgroundColor: selectedNumbers.has(num) ? "#FFD700" : ticketColor,
+                                            color: selectedNumbers.has(num) ? "#000" : "#000",
+                                            border: selectedNumbers.has(num) ? "3px solid #DAA520" : "2px solid rgba(0,0,0,0.1)",
+                                        }}
                                     >
                                         {num}
                                     </button>
-                                );
-                            })}
-                        </div>
-                    );
-                })}
-            </div>
-
-            {/* Decorative footer */}
-            <div className="ticket-footer-deco">
-                <div className="deco-dots">• • • • • • • • • • • • • •</div>
-                <div className="ticket-footer-text">TÊM TEN NHẤT</div>
-                <div className="deco-dots">• • • • • • • • • • • • • •</div>
-            </div>
-
-            {/* Complete row badge */}
-            {ticket.some((row, idx) => {
-                const rowNumbers = row.filter((n) => n !== null);
-                const selectedInRow = rowNumbers.filter((n) => selectedNumbers.has(n));
-                return selectedInRow.length === 5;
-            }) && (
-                    <div className="complete-row-badge">
-                        ⭐ KINH! ⭐
+                                )}
+                            </div>
+                        ))}
                     </div>
-                )}
+                ))}
+            </div>
+
+            {/* Divider 1 */}
+            <div className="ticket-divider" style={{ background: ticketColor }}>
+                Mã đáo thành công
+            </div>
+
+            {/* Section 2: Rows 4-6 */}
+            <div className="ticket-section">
+                {ticket.slice(3, 6).map((row, rowIdx) => (
+                    <div key={rowIdx + 3} className="ticket-row-single">
+                        {row.map((num, colIdx) => (
+                            <div key={`${rowIdx + 3}-${colIdx}`} className="cell-wrapper">
+                                {num === null ? (
+                                    <div className="cell-empty-single" />
+                                ) : (
+                                    <button
+                                        onClick={() => onToggle(num)}
+                                        className={`cell-number-single ${selectedNumbers.has(num) ? "cell-selected-single" : ""
+                                            } ${calledNumbers.includes(num) && !selectedNumbers.has(num) ? "cell-called-single" : ""}`}
+                                        style={{
+                                            backgroundColor: selectedNumbers.has(num) ? "#FFD700" : ticketColor,
+                                            color: selectedNumbers.has(num) ? "#000" : "#000",
+                                            border: selectedNumbers.has(num) ? "3px solid #DAA520" : "2px solid rgba(0,0,0,0.1)",
+                                        }}
+                                    >
+                                        {num}
+                                    </button>
+                                )}
+                            </div>
+                        ))}
+                    </div>
+                ))}
+            </div>
+
+            {/* Divider 2 */}
+            <div className="ticket-divider" style={{ background: ticketColor }}>
+                An Khang Thịnh Vượng
+            </div>
+
+            {/* Section 3: Rows 7-9 */}
+            <div className="ticket-section">
+                {ticket.slice(6, 9).map((row, rowIdx) => (
+                    <div key={rowIdx + 6} className="ticket-row-single">
+                        {row.map((num, colIdx) => (
+                            <div key={`${rowIdx + 6}-${colIdx}`} className="cell-wrapper">
+                                {num === null ? (
+                                    <div className="cell-empty-single" />
+                                ) : (
+                                    <button
+                                        onClick={() => onToggle(num)}
+                                        className={`cell-number-single ${selectedNumbers.has(num) ? "cell-selected-single" : ""
+                                            } ${calledNumbers.includes(num) && !selectedNumbers.has(num) ? "cell-called-single" : ""}`}
+                                        style={{
+                                            backgroundColor: selectedNumbers.has(num) ? "#FFD700" : ticketColor,
+                                            color: selectedNumbers.has(num) ? "#000" : "#000",
+                                            border: selectedNumbers.has(num) ? "3px solid #DAA520" : "2px solid rgba(0,0,0,0.1)",
+                                        }}
+                                    >
+                                        {num}
+                                    </button>
+                                )}
+                            </div>
+                        ))}
+                    </div>
+                ))}
+            </div>
+
+            {/* Footer */}
+            <div className="ticket-footer-section" style={{ background: ticketColor }}>
+                <div className="footer-dots">• • • • • • • • • • • • • •</div>
+                <div className="footer-text">Chúc bạn may mắn</div>
+                <div className="footer-dots">• • • • • • • • • • • • • •</div>
+            </div>
         </div>
     );
 });
