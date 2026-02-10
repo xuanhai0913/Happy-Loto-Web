@@ -14,8 +14,9 @@ const TICKET_COLORS = [
 const LotoTicket = memo(function LotoTicket({ ticket, selectedNumbers, calledNumbers, onToggle, playerName }) {
     if (!ticket) return null;
 
-    // Pick ONE random color for the entire ticket (consistent per render)
-    const ticketColor = TICKET_COLORS[Math.floor(Math.random() * TICKET_COLORS.length)];
+    // Pick ONE consistent color based on playerName (hash-based, not random)
+    const hash = (playerName || "").split("").reduce((acc, char) => acc + char.charCodeAt(0), 0);
+    const ticketColor = TICKET_COLORS[hash % TICKET_COLORS.length];
 
     return (
         <div className="single-color-ticket" style={{ borderColor: ticketColor }}>
