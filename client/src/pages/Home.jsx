@@ -180,7 +180,7 @@ export default function Home() {
                        focus:outline-none focus:border-tet-gold/40 transition-colors"
                     />
 
-                    <div className="flex gap-3">
+                    <div className="flex flex-col gap-3">
                         <input
                             type="text"
                             inputMode="numeric"
@@ -188,7 +188,7 @@ export default function Home() {
                             onChange={handleCodeInput}
                             placeholder="Mã phòng"
                             maxLength={4}
-                            className="flex-1 bg-tet-card-light border-2 border-tet-gold/30 rounded-xl px-4 py-3
+                            className="w-full bg-tet-card-light border-2 border-tet-gold/30 rounded-xl px-4 py-3
                          text-center text-2xl font-bold text-tet-gold tracking-[0.5em]
                          placeholder:text-tet-cream/30 placeholder:text-base placeholder:tracking-normal
                          focus:outline-none focus:border-tet-gold transition-colors"
@@ -196,7 +196,7 @@ export default function Home() {
                         <button
                             onClick={() => handleJoinRoom()}
                             disabled={loading || roomCode.length !== 4}
-                            className="btn-danger px-6 disabled:opacity-50"
+                            className="btn-danger w-full py-4 text-lg disabled:opacity-50"
                         >
                             VÀO
                         </button>
