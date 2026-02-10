@@ -1,42 +1,41 @@
 import { memo } from "react";
 
-// Traditional Vietnamese Loto row colors - vibrant like real tickets
+// Traditional Vietnamese Loto colors - SUPER vibrant like real tickets
 const ROW_COLORS = [
-    { bg: "#E85D2C", text: "#FFFFFF", border: "#C74A20" },  // Cam đậm (Orange)
-    { bg: "#2E9E4F", text: "#FFFFFF", border: "#237A3C" },  // Xanh lá (Green)
-    { bg: "#E84393", text: "#FFFFFF", border: "#C5357B" },  // Hồng (Pink)
-    { bg: "#F5A623", text: "#FFFFFF", border: "#D4901D" },  // Vàng cam (Amber)
-    { bg: "#3498DB", text: "#FFFFFF", border: "#2980B9" },  // Xanh dương (Blue)
-    { bg: "#E74C3C", text: "#FFFFFF", border: "#C0392B" },  // Đỏ (Red)
-    { bg: "#8E44AD", text: "#FFFFFF", border: "#7D3C98" },  // Tím (Purple)
-    { bg: "#1ABC9C", text: "#FFFFFF", border: "#16A085" },  // Ngọc (Teal)
-    { bg: "#E67E22", text: "#FFFFFF", border: "#D35400" },  // Cam (Deep Orange)
+    "#FF5722", // Cam rực (Bright Orange)
+    "#4CAF50", // Xanh lá tươi (Bright Green)  
+    "#E91E63", // Hồng sốc (Hot Pink)
+    "#FFC107", // Vàng tươi (Bright Yellow)
+    "#2196F3", // Xanh dương (Bright Blue)
+    "#F44336", // Đỏ rực (Bright Red)
+    "#9C27B0", // Tím (Purple)
+    "#00BCD4", // Xanh ngọc (Cyan)
+    "#FF9800", // Cam vàng (Orange)
 ];
 
 const LotoTicket = memo(function LotoTicket({ ticket, selectedNumbers, calledNumbers, onToggle, playerName }) {
     if (!ticket) return null;
 
     return (
-        <div className="loto-ticket-traditional">
-            {/* Ticket header with player name */}
-            <div className="ticket-header">
-                <div className="ticket-header-left">
-                    <span className="ticket-brand">LÔ TÔ</span>
-                </div>
-                <div className="ticket-header-center">
-                    {playerName && (
-                        <span className="ticket-player-name">{playerName}</span>
-                    )}
-                </div>
-                <div className="ticket-header-right">
-                    <span className="ticket-label">HAPPY LOTO</span>
-                </div>
+        <div className="traditional-loto-ticket">
+            {/* Decorative header */}
+            <div className="ticket-header-deco">
+                <div className="deco-dots">• • • • • • • • • • • • • •</div>
+                <div className="ticket-title">TÊM TEN</div>
+                <div className="deco-dots">• • • • • • • • • • • • • •</div>
             </div>
 
+            {/* Player name banner */}
+            {playerName && (
+                <div className="ticket-player-banner">
+                    <span className="player-name-tag">{playerName}</span>
+                </div>
+            )}
+
             {/* Ticket grid */}
-            <div className="ticket-grid">
+            <div className="ticket-grid-traditional">
                 {ticket.map((row, rowIdx) => {
-                    const color = ROW_COLORS[rowIdx % ROW_COLORS.length];
+                    const bgColor = ROW_COLORS[rowIdx % ROW_COLORS.length];
                     const rowNumbers = row.filter((n) => n !== null);
                     const selectedInRow = rowNumbers.filter((n) => selectedNumbers.has(n));
                     const isRowComplete = selectedInRow.length === 5;
@@ -44,17 +43,19 @@ const LotoTicket = memo(function LotoTicket({ ticket, selectedNumbers, calledNum
                     return (
                         <div
                             key={rowIdx}
-                            className={`ticket-row ${isRowComplete ? "ticket-row-complete" : ""}`}
+                            className={`ticket-row-trad ${isRowComplete ? "row-complete-glow" : ""}`}
+                            style={{ backgroundColor: bgColor }}
                         >
                             {row.map((num, colIdx) => {
                                 if (num === null) {
+                                    // Empty cell — slightly transparent
                                     return (
                                         <div
                                             key={`${rowIdx}-${colIdx}`}
-                                            className="ticket-cell-trad ticket-cell-empty-trad"
+                                            className="ticket-cell-trad cell-empty-trad"
                                             style={{
-                                                backgroundColor: `${color.bg}15`,
-                                                borderColor: `${color.border}30`,
+                                                backgroundColor: "rgba(255, 255, 255, 0.15)",
+                                                border: "2px solid rgba(255, 255, 255, 0.3)",
                                             }}
                                         />
                                     );
@@ -67,45 +68,51 @@ const LotoTicket = memo(function LotoTicket({ ticket, selectedNumbers, calledNum
                                     <button
                                         key={`${rowIdx}-${colIdx}`}
                                         onClick={() => onToggle(num)}
-                                        className={`ticket-cell-trad ${isSelected
-                                                ? "ticket-cell-selected-trad"
-                                                : "ticket-cell-number-trad"
-                                            } ${isCalled && !isSelected ? "ticket-cell-called" : ""}`}
+                                        className={`ticket-cell-trad cell-number-trad ${isSelected ? "cell-selected-gold" : ""
+                                            } ${isCalled && !isSelected ? "cell-called-dim" : ""}`}
                                         style={
                                             isSelected
                                                 ? {
                                                     backgroundColor: "#FFD700",
                                                     color: "#8B0000",
-                                                    borderColor: "#DAA520",
+                                                    fontWeight: "900",
+                                                    border: "3px solid #DAA520",
+                                                    boxShadow: "0 0 12px rgba(255, 215, 0, 0.8)",
                                                 }
                                                 : {
-                                                    backgroundColor: color.bg,
-                                                    color: color.text,
-                                                    borderColor: color.border,
+                                                    backgroundColor: "rgba(255, 255, 255, 0.95)",
+                                                    color: bgColor,
+                                                    fontWeight: "900",
+                                                    border: "2px solid rgba(255, 255, 255, 0.8)",
                                                 }
                                         }
                                     >
-                                        <span className="cell-number">{num}</span>
-                                        {isSelected && <span className="cell-check">✓</span>}
+                                        {num}
                                     </button>
                                 );
                             })}
-
-                            {/* Row complete indicator */}
-                            {isRowComplete && (
-                                <div className="row-complete-badge">
-                                    ⭐
-                                </div>
-                            )}
                         </div>
                     );
                 })}
             </div>
 
-            {/* Ticket footer */}
-            <div className="ticket-footer">
-                <span>🎊 Chúc may mắn! 🎊</span>
+            {/* Decorative footer */}
+            <div className="ticket-footer-deco">
+                <div className="deco-dots">• • • • • • • • • • • • • •</div>
+                <div className="ticket-footer-text">TÊM TEN NHẤT</div>
+                <div className="deco-dots">• • • • • • • • • • • • • •</div>
             </div>
+
+            {/* Complete row badge */}
+            {ticket.some((row, idx) => {
+                const rowNumbers = row.filter((n) => n !== null);
+                const selectedInRow = rowNumbers.filter((n) => selectedNumbers.has(n));
+                return selectedInRow.length === 5;
+            }) && (
+                    <div className="complete-row-badge">
+                        ⭐ KINH! ⭐
+                    </div>
+                )}
         </div>
     );
 });
