@@ -9,7 +9,8 @@ const SOUND_FILES = {
     gameStart: "/audio/sfx/game_start.mp3",
     numberCalled: "/audio/sfx/number_called.mp3",
     tap: "/audio/sfx/click-button.mp3",
-    win: "/audio/sfx/win.mp3",
+    win: "/audio/sfx/happy-new-year.mp3",
+    otherWin: "/audio/sfx/win.mp3",
     fail: "/audio/sfx/fail.mp3",
     click: "/audio/sfx/click-button.mp3",
     roll: "/audio/sfx/roll.mp3",
@@ -102,9 +103,9 @@ export function playVerificationStart() {
     playSound("numberCalled");
 }
 
-/** Other player wins - reuse gameStart */
+/** Other player wins - shorter celebration */
 export function playOtherWin() {
-    playSound("gameStart");
+    playSound("otherWin");
 }
 
 /** Initialize audio context (call on first user tap) */
