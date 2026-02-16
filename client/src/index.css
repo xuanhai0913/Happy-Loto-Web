@@ -171,6 +171,9 @@
     overflow: hidden;
     background: #FFFFFF;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
   }
 
   /* Header section with player name */
@@ -213,11 +216,11 @@
   }
 
   .cell-wrapper {
-    aspect-ratio: 1;
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 45px;
+    min-height: 36px;
+    min-width: 0;
   }
 
   .cell-empty-single {
@@ -234,7 +237,7 @@
     align-items: center;
     justify-content: center;
     font-weight: 900;
-    font-size: 18px;
+    font-size: clamp(14px, 4vw, 18px);
     cursor: pointer;
     transition: all 0.15s ease;
     user-select: none;

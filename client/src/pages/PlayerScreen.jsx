@@ -277,7 +277,7 @@ export default function PlayerScreen() {
                 <div className="card p-3">
                     <div className="flex items-center justify-between mb-3">
                         <h3 className="text-sm font-bold text-tet-gold flex items-center gap-1.5">
-                            Vé của bạn
+                            <span>🎫</span> Vé của bạn
                         </h3>
                         <span className="text-[10px] text-tet-cream/40 bg-tet-cream/5 px-2 py-0.5 rounded-full">
                             Chạm số để đánh dấu
