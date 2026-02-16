@@ -25,6 +25,8 @@ export default function HostScreen() {
     const [isCallingNumber, setIsCallingNumber] = useState(false);
     const [verification, setVerification] = useState(null);
     const [showPlayers, setShowPlayers] = useState(true);
+    const [isAutoSpin, setIsAutoSpin] = useState(false);
+    const [autoSpinSpeed, setAutoSpinSpeed] = useState(5000);
 
     useEffect(() => {
         socket.on("player_joined", ({ playerCount: pc, onlineCount: oc, players: pl }) => {
@@ -84,7 +86,23 @@ export default function HostScreen() {
             setTimeout(() => setVerification(null), 4000);
         });
 
-        socket.on("game_over", () => setIsPlaying(false));
+        socket.on("game_over", () => {
+            setIsPlaying(false);
+            setIsAutoSpin(false);
+        });
+
+        socket.on("auto_spin_started", ({ speed }) => {
+            setIsAutoSpin(true);
+            setAutoSpinSpeed(speed);
+        });
+
+        socket.on("auto_spin_stopped", () => {
+            setIsAutoSpin(false);
+        });
+
+        socket.on("game_reset_broadcast", () => {
+            setIsAutoSpin(false);
+        });
 
         return () => {
             socket.off("player_joined");
@@ -97,15 +115,33 @@ export default function HostScreen() {
             socket.off("verification_start");
             socket.off("verification_result");
             socket.off("game_over");
+            socket.off("auto_spin_started");
+            socket.off("auto_spin_stopped");
         };
     }, []);
 
     const handleStart = () => socket.emit("start_game", { roomCode });
 
     const handleCallNumber = () => {
-        if (isCallingNumber) return;
+        if (isCallingNumber || isAutoSpin) return;
         setIsCallingNumber(true);
         socket.emit("call_number", { roomCode });
+    };
+
+    const handleToggleAutoSpin = () => {
+        if (isAutoSpin) {
+            socket.emit("stop_auto_spin", { roomCode });
+        } else {
+            socket.emit("start_auto_spin", { roomCode, speed: autoSpinSpeed });
+        }
+    };
+
+    const handleSpeedChange = (speed) => {
+        setAutoSpinSpeed(speed);
+        if (isAutoSpin) {
+            // Restart with new speed
+            socket.emit("start_auto_spin", { roomCode, speed });
+        }
     };
 
     const handlePause = () => {
@@ -269,15 +305,47 @@ export default function HostScreen() {
                         <>
                             <button
                                 onClick={handleCallNumber}
-                                disabled={isPaused || isCallingNumber || !!verification}
+                                disabled={isPaused || isCallingNumber || !!verification || isAutoSpin}
                                 className="btn-primary text-lg col-span-2 disabled:opacity-50"
                             >
-                                {isCallingNumber
-                                    ? "Đang quay..."
-                                    : verification
-                                        ? "Đang dò vé..."
-                                        : "QUAY SỐ"}
+                                {isAutoSpin
+                                    ? "Đang tự động quay..."
+                                    : isCallingNumber
+                                        ? "Đang quay..."
+                                        : verification
+                                            ? "Đang dò vé..."
+                                            : "QUAY SỐ"}
                             </button>
+
+                            {/* Auto-spin controls */}
+                            <div className="col-span-2 auto-spin-panel">
+                                <div className="auto-spin-header">
+                                    <span className="auto-spin-label">
+                                        <span className="material-icons-round" style={{ fontSize: 18 }}>autorenew</span>
+                                        Tự động quay
+                                    </span>
+                                    <button
+                                        onClick={handleToggleAutoSpin}
+                                        disabled={isPaused || !!verification}
+                                        className={`auto-spin-toggle ${isAutoSpin ? "active" : ""}`}
+                                    >
+                                        <span className="auto-spin-toggle-knob" />
+                                    </button>
+                                </div>
+                                <div className="auto-spin-speeds">
+                                    {[{ label: "Nhanh", value: 3000 }, { label: "Vừa", value: 5000 }, { label: "Chậm", value: 8000 }].map((s) => (
+                                        <button
+                                            key={s.value}
+                                            onClick={() => handleSpeedChange(s.value)}
+                                            className={`auto-spin-speed-btn ${autoSpinSpeed === s.value ? "active" : ""}`}
+                                        >
+                                            {s.label}
+                                            <span className="auto-spin-speed-sub">{s.value / 1000}s</span>
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+
                             <button onClick={handlePause} className="btn-danger">
                                 {isPaused ? "Tiếp tục" : "Tạm dừng"}
                             </button>

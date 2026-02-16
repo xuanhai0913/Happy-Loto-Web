@@ -165,6 +165,8 @@ io.on("connection", (socket) => {
             isPaused: false,
             winner: null,
             verifying: null, // { playerId, ticket, selectedNumbers, rowIndex, rowNumbers }
+            autoSpinInterval: null,
+            autoSpinSpeed: 5000,
         };
         rooms.set(roomCode, room);
         socket.join(roomCode);
@@ -293,15 +295,26 @@ io.on("connection", (socket) => {
         console.log(`🎮 Game started in room ${roomCode} with ${room.players.size} players`);
     });
 
-    // --- CALL NUMBER ---
-    socket.on("call_number", ({ roomCode }) => {
-        const room = rooms.get(roomCode);
-        if (!room || room.hostId !== socket.id || !room.isPlaying || room.isPaused) return;
-        // Block calling if verification is in progress
-        if (room.verifying) return;
+    // --- HELPER: Stop auto-spin for a room ---
+    function stopAutoSpin(room, roomCode) {
+        if (room.autoSpinInterval) {
+            clearInterval(room.autoSpinInterval);
+            room.autoSpinInterval = null;
+            io.to(roomCode).emit("auto_spin_stopped");
+            console.log(`⏹️ Auto-spin stopped in room ${roomCode}`);
+        }
+    }
+
+    // --- HELPER: Call a number in a room ---
+    function callNumberInRoom(room, roomCode) {
+        if (!room.isPlaying || room.isPaused || room.verifying || room.winner) {
+            stopAutoSpin(room, roomCode);
+            return;
+        }
 
         const number = getAvailableNumber(room);
         if (number === null) {
+            stopAutoSpin(room, roomCode);
             io.to(roomCode).emit("game_over", { message: "Đã hết số!" });
             return;
         }
@@ -316,6 +329,47 @@ io.on("connection", (socket) => {
         });
 
         console.log(`🔢 Room ${roomCode}: Called number ${number} (${room.calledNumbers.length}/90)`);
+    }
+
+    // --- CALL NUMBER ---
+    socket.on("call_number", ({ roomCode }) => {
+        const room = rooms.get(roomCode);
+        if (!room || room.hostId !== socket.id || !room.isPlaying || room.isPaused) return;
+        if (room.verifying) return;
+
+        callNumberInRoom(room, roomCode);
+    });
+
+    // --- START AUTO-SPIN ---
+    socket.on("start_auto_spin", ({ roomCode, speed }) => {
+        const room = rooms.get(roomCode);
+        if (!room || room.hostId !== socket.id || !room.isPlaying || room.isPaused) return;
+        if (room.verifying) return;
+
+        // Stop existing auto-spin if any
+        stopAutoSpin(room, roomCode);
+
+        const interval = Math.max(2000, Math.min(15000, speed || 5000));
+        room.autoSpinSpeed = interval;
+
+        // Call first number immediately
+        callNumberInRoom(room, roomCode);
+
+        // Start interval
+        room.autoSpinInterval = setInterval(() => {
+            callNumberInRoom(room, roomCode);
+        }, interval);
+
+        io.to(roomCode).emit("auto_spin_started", { speed: interval });
+        console.log(`🔄 Auto-spin started in room ${roomCode} (${interval}ms)`);
+    });
+
+    // --- STOP AUTO-SPIN ---
+    socket.on("stop_auto_spin", ({ roomCode }) => {
+        const room = rooms.get(roomCode);
+        if (!room || room.hostId !== socket.id) return;
+
+        stopAutoSpin(room, roomCode);
     });
 
     // --- PAUSE GAME ---
@@ -323,6 +377,7 @@ io.on("connection", (socket) => {
         const room = rooms.get(roomCode);
         if (!room || room.hostId !== socket.id) return;
 
+        stopAutoSpin(room, roomCode);
         room.isPaused = true;
         io.to(roomCode).emit("game_paused");
         console.log(`⏸️ Game paused in room ${roomCode}`);
@@ -343,6 +398,7 @@ io.on("connection", (socket) => {
         const room = rooms.get(roomCode);
         if (!room || room.hostId !== socket.id) return;
 
+        stopAutoSpin(room, roomCode);
         room.calledNumbers = [];
         room.currentNumber = null;
         room.isPlaying = false;
@@ -408,7 +464,8 @@ io.on("connection", (socket) => {
         console.log(`🎯 Player ${pid} claims KINH with row ${rowIndex}: [${rowNumbers.join(", ")}]`);
         console.log(`   Called numbers: [${room.calledNumbers.join(", ")}]`);
 
-        // STEP 1: Pause game & broadcast VERIFICATION START
+        // STEP 1: Pause game, stop auto-spin & broadcast VERIFICATION START
+        stopAutoSpin(room, roomCode);
         room.isPaused = true;
         room.verifying = {
             playerId: pid,
@@ -524,7 +581,8 @@ io.on("connection", (socket) => {
             const room = rooms.get(socket.roomCode);
             if (room) {
                 if (socket.isHost) {
-                    // Host left - destroy room
+                    // Host left - stop auto-spin & destroy room
+                    stopAutoSpin(room, socket.roomCode);
                     io.to(socket.roomCode).emit("room_closed", {
                         message: "Chủ phòng đã rời đi!",
                     });
