@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import socket from "../socket";
+import Trophy3D from "../components/Trophy3D";
 
 // Generate or retrieve a persistent player ID
 function getPersistentId() {
@@ -284,23 +285,26 @@ export default function Home() {
                         </div>
                     </div>
 
-                    {/* Leaderboard Button */}
-                    <button
-                        onClick={() => navigate("/leaderboard")}
-                        className="w-full font-bold py-4 px-6 rounded-2xl shadow-lg transition-all duration-200 flex items-center justify-center gap-2 group cursor-pointer hover:-translate-y-0.5"
-                        style={{
-                            background: "#FFFFFF",
-                            color: "#F97316",
-                        }}
-                    >
-                        <span
-                            className="material-icons-round group-hover:scale-110 transition-transform"
-                            style={{ fontSize: 24 }}
+                    {/* Leaderboard Section */}
+                    <div className="flex flex-col items-center">
+                        <Trophy3D size={120} />
+                        <button
+                            onClick={() => navigate("/leaderboard")}
+                            className="w-full font-bold py-4 px-6 rounded-2xl shadow-lg transition-all duration-200 flex items-center justify-center gap-2 group cursor-pointer hover:-translate-y-0.5 -mt-2"
+                            style={{
+                                background: "#FFFFFF",
+                                color: "#F97316",
+                            }}
                         >
-                            emoji_events
-                        </span>
-                        Bảng Xếp Hạng
-                    </button>
+                            <span
+                                className="material-icons-round group-hover:scale-110 transition-transform"
+                                style={{ fontSize: 24 }}
+                            >
+                                emoji_events
+                            </span>
+                            Bảng Xếp Hạng
+                        </button>
+                    </div>
 
                     {/* Error */}
                     {error && (
