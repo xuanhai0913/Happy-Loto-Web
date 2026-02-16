@@ -6,6 +6,12 @@ import LotoTicket from "../components/LotoTicket";
 import QuickChat from "../components/QuickChat";
 import VerificationModal from "../components/VerificationModal";
 import BackgroundMusic from "../components/BackgroundMusic";
+import {
+    playGameStart, playNumberCalled, playNumberTap,
+    playWinSound, playFailSound, playPauseSound,
+    playResumeSound, playResetSound, playVerificationStart,
+    playOtherWin, initAudio
+} from "../utils/soundEffects";
 
 export default function PlayerScreen() {
     const { roomCode } = useParams();
@@ -56,6 +62,7 @@ export default function PlayerScreen() {
             setIsPaused(false);
             setResult(null);
             setWinnerAlert(null);
+            playGameStart();
         });
 
         socket.on("number_called", ({ number, calledNumbers: all }) => {
@@ -63,10 +70,11 @@ export default function PlayerScreen() {
             setCalledNumbers(all);
             setShowNumberAnim(true);
             setTimeout(() => setShowNumberAnim(false), 600);
+            playNumberCalled();
         });
 
-        socket.on("game_paused", () => setIsPaused(true));
-        socket.on("game_resumed", () => setIsPaused(false));
+        socket.on("game_paused", () => { setIsPaused(true); playPauseSound(); });
+        socket.on("game_resumed", () => { setIsPaused(false); playResumeSound(); });
 
         socket.on("game_reset", ({ ticket: newTicket }) => {
             setTicket(newTicket);
@@ -81,6 +89,7 @@ export default function PlayerScreen() {
             setFalseAlarmAlert(null);
             setVerification(null);
             setIsSubmittingKinh(false);
+            playResetSound();
         });
 
         socket.on("game_reset_broadcast", () => {
@@ -102,6 +111,7 @@ export default function PlayerScreen() {
                 ...data,
                 result: null, // waiting for result
             });
+            playVerificationStart();
         });
 
         socket.on("verification_result", (data) => {
@@ -112,6 +122,7 @@ export default function PlayerScreen() {
                 setIsPlaying(false);
                 if (data.playerId === playerId) {
                     setResult("win");
+                    playWinSound();
                     setResultMessage("CHÚC MỪNG BẠN ĐÃ KINH!");
                     const end = Date.now() + 4000;
                     const fire = () => {
@@ -127,11 +138,13 @@ export default function PlayerScreen() {
                 } else {
                     setWinnerAlert({ playerId: data.playerId, playerName: data.playerName });
                     confetti({ particleCount: 30, spread: 60, origin: { y: 0.7 } });
+                    playOtherWin();
                 }
             } else {
                 if (data.playerId === playerId) {
                     setResult("fail");
                     setResultMessage("😂 KINH HỤT RỒI! Nghe cho kỹ nha!");
+                    playFailSound();
                 } else {
                     setFalseAlarmAlert(data.playerName || data.playerId);
                     setTimeout(() => setFalseAlarmAlert(null), 5000);
@@ -164,6 +177,7 @@ export default function PlayerScreen() {
 
     const handleToggleNumber = useCallback(
         (num) => {
+            playNumberTap();
             setSelectedNumbers((prev) => {
                 const next = new Set(prev);
                 if (next.has(num)) {
