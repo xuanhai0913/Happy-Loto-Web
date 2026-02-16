@@ -1,151 +1,107 @@
 /**
  * Sound Effects for Happy Loto
- * Uses Web Audio API to generate game sounds programmatically
- * No external files needed - all sounds are synthesized
+ * Uses pre-downloaded MP3 files for reliable playback on mobile
  */
 
-// Singleton AudioContext
-let audioCtx = null;
+// Pre-load audio elements for instant playback
+const sounds = {};
+const SOUND_FILES = {
+    gameStart: "/audio/sfx/game_start.mp3",
+    numberCalled: "/audio/sfx/number_called.mp3",
+    tap: "/audio/sfx/click-button.mp3",
+    win: "/audio/sfx/win.mp3",
+    fail: "/audio/sfx/fail.mp3",
+    click: "/audio/sfx/click-button.mp3",
+};
 
-function getAudioContext() {
-    if (!audioCtx) {
-        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    }
-    // Resume if suspended (browser autoplay policy)
-    if (audioCtx.state === "suspended") {
-        audioCtx.resume();
-    }
-    return audioCtx;
+// Pre-load all sounds
+function preloadSounds() {
+    Object.entries(SOUND_FILES).forEach(([key, src]) => {
+        const audio = new Audio(src);
+        audio.preload = "auto";
+        audio.volume = key === "tap" || key === "click" ? 0.4 : 0.5;
+        sounds[key] = audio;
+    });
 }
 
-/**
- * Play a short beep/tone
- */
-function playTone(freq, duration, type = "sine", volume = 0.3) {
+// Play a sound by key
+function playSound(key) {
     try {
-        const ctx = getAudioContext();
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-
-        osc.type = type;
-        osc.frequency.setValueAtTime(freq, ctx.currentTime);
-
-        gain.gain.setValueAtTime(volume, ctx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + duration);
-
-        osc.connect(gain);
-        gain.connect(ctx.destination);
-
-        osc.start(ctx.currentTime);
-        osc.stop(ctx.currentTime + duration);
+        const audio = sounds[key];
+        if (!audio) return;
+        // Clone for overlapping plays
+        if (!audio.paused) {
+            const clone = audio.cloneNode();
+            clone.volume = audio.volume;
+            clone.play().catch(() => { });
+            return;
+        }
+        audio.currentTime = 0;
+        audio.play().catch(() => { });
     } catch (e) {
-        // Silently fail if audio is not available
+        // Silently fail
     }
 }
 
-/**
- * Game Start - ascending cheerful tones
- */
+// Initialize on import
+preloadSounds();
+
+/** Game Start - ascending fanfare */
 export function playGameStart() {
-    const notes = [523, 659, 784, 1047]; // C5, E5, G5, C6
-    notes.forEach((freq, i) => {
-        setTimeout(() => playTone(freq, 0.3, "sine", 0.25), i * 120);
-    });
+    playSound("gameStart");
 }
 
-/**
- * Number Called - a short "ding" notification
- */
+/** Number Called - ding notification */
 export function playNumberCalled() {
-    playTone(880, 0.15, "sine", 0.2);
-    setTimeout(() => playTone(1100, 0.12, "sine", 0.15), 80);
+    playSound("numberCalled");
 }
 
-/**
- * Number Tap/Select - soft click feedback
- */
+/** Number Tap on ticket - click */
 export function playNumberTap() {
-    playTone(600, 0.06, "square", 0.08);
+    playSound("tap");
 }
 
-/**
- * Win / KINH - triumphant fanfare
- */
+/** Win / KINH! */
 export function playWinSound() {
-    const fanfare = [
-        { freq: 523, delay: 0 },     // C5
-        { freq: 659, delay: 100 },   // E5
-        { freq: 784, delay: 200 },   // G5
-        { freq: 1047, delay: 350 },  // C6
-        { freq: 1175, delay: 450 },  // D6
-        { freq: 1319, delay: 550 },  // E6
-        { freq: 1568, delay: 700 },  // G6
-    ];
-    fanfare.forEach(({ freq, delay }) => {
-        setTimeout(() => playTone(freq, 0.4, "sine", 0.2), delay);
-    });
+    playSound("win");
 }
 
-/**
- * Fail / False alarm - descending "wah wah"
- */
+/** Fail / False alarm */
 export function playFailSound() {
-    const notes = [440, 415, 370, 330]; // A4 descending
-    notes.forEach((freq, i) => {
-        setTimeout(() => playTone(freq, 0.35, "sawtooth", 0.1), i * 250);
-    });
+    playSound("fail");
 }
 
-/**
- * Game Paused - low soft tone
- */
+/** Button click */
+export function playClick() {
+    playSound("click");
+}
+
+/** Pause - reuse click */
 export function playPauseSound() {
-    playTone(330, 0.3, "sine", 0.15);
+    playSound("click");
 }
 
-/**
- * Game Resumed - upward tone
- */
+/** Resume - reuse click */
 export function playResumeSound() {
-    playTone(440, 0.15, "sine", 0.15);
-    setTimeout(() => playTone(554, 0.15, "sine", 0.15), 100);
+    playSound("click");
 }
 
-/**
- * Game Reset / New game - short reset sound
- */
+/** Reset / New game - reuse click */
 export function playResetSound() {
-    playTone(659, 0.12, "sine", 0.15);
-    setTimeout(() => playTone(523, 0.2, "sine", 0.15), 100);
+    playSound("click");
 }
 
-/**
- * Verification Start - suspenseful rising tone
- */
+/** Verification start - reuse numberCalled */
 export function playVerificationStart() {
-    playTone(400, 0.5, "sine", 0.12);
-    setTimeout(() => playTone(500, 0.5, "sine", 0.12), 200);
-    setTimeout(() => playTone(600, 0.5, "sine", 0.12), 400);
+    playSound("numberCalled");
 }
 
-/**
- * Someone else wins - short celebration
- */
+/** Other player wins - reuse gameStart */
 export function playOtherWin() {
-    const notes = [523, 659, 784]; // C5, E5, G5
-    notes.forEach((freq, i) => {
-        setTimeout(() => playTone(freq, 0.25, "sine", 0.15), i * 100);
-    });
+    playSound("gameStart");
 }
 
-/**
- * Initialize audio context on first user interaction
- * Call this early to ensure sounds work
- */
+/** Initialize audio context (call on first user tap) */
 export function initAudio() {
-    try {
-        getAudioContext();
-    } catch (e) {
-        // Audio not available
-    }
+    preloadSounds();
 }
