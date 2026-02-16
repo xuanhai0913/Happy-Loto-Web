@@ -12,6 +12,7 @@ const SOUND_FILES = {
     win: "/audio/sfx/win.mp3",
     fail: "/audio/sfx/fail.mp3",
     click: "/audio/sfx/click-button.mp3",
+    roll: "/audio/sfx/roll.mp3",
 };
 
 // Pre-load all sounds
@@ -74,6 +75,11 @@ export function playFailSound() {
 /** Button click */
 export function playClick() {
     playSound("click");
+}
+
+/** Roll / Reroll ticket */
+export function playRollSound() {
+    playSound("roll");
 }
 
 /** Pause - reuse click */
