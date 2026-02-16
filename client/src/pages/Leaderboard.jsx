@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import Trophy3D from "../components/Trophy3D";
 
 export default function Leaderboard() {
     const navigate = useNavigate();
@@ -72,6 +73,11 @@ export default function Leaderboard() {
             </header>
 
             <div className="flex-1 max-w-2xl mx-auto w-full p-4 space-y-4">
+                {/* 3D Trophy */}
+                <div className="flex flex-col items-center -mt-2 -mb-2">
+                    <Trophy3D size={140} />
+                    <p className="text-tet-gold/60 text-xs -mt-2">Kéo để xoay cúp</p>
+                </div>
                 {/* Stats Cards */}
                 {stats && (
                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">

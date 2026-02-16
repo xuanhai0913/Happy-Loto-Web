@@ -6,6 +6,7 @@ import LotoTicket from "../components/LotoTicket";
 import QuickChat from "../components/QuickChat";
 import VerificationModal from "../components/VerificationModal";
 import BackgroundMusic from "../components/BackgroundMusic";
+import Trophy3D from "../components/Trophy3D";
 import {
     playGameStart, playNumberCalled, playNumberTap,
     playWinSound, playFailSound, playPauseSound,
@@ -337,7 +338,7 @@ export default function PlayerScreen() {
                 {/* Result Overlays */}
                 {result === "win" && (
                     <div className="card bg-gradient-to-r from-tet-gold/20 to-yellow-500/20 border-tet-gold/40 text-center py-6 space-y-3">
-                        <img src="/images/meme/mewnhanlixi.png" alt="Mèo nhận lì xì" className="w-32 h-32 mx-auto rounded-2xl shadow-lg object-cover" />
+                        <Trophy3D size={160} />
                         <h2 className="text-3xl font-black text-tet-gold">KINH RỒI!</h2>
                         <p className="text-tet-cream/80">{resultMessage}</p>
                         <p className="text-tet-gold/60 text-sm">Bạn là người chiến thắng!</p>
